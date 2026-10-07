@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بوصلة — نظام متابعة الأعمال | شورت فيديو + لونج فيديو (بودكاست)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d1424; --ink-2:#1e2b45; --navy:#1e3a8a; --muted:#5f6f8c; --line:#e2e8f2; --soft:#f6f9fd;
+  --gold:#f59e0b; --gold-d:#b45309; --orange:#f97316;
+  --yt:#0ea5e9; --tt:#ec4899; --ok:#16a34a; --warn:#f59e0b; --bad:#dc2626; --purple:#7c3aed;
+  --rad:16px; --rad-s:10px;
+  --shadow:0 10px 30px rgba(13,20,36,.08); --shadow-l:0 18px 48px rgba(13,20,36,.14);
+  --side-w:274px;
+}
+*{box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Tajawal","Cairo","Noto Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  background:#eef2f8; color:var(--ink); font-size:15px; line-height:1.6;
+}
+button,input,select,textarea{font-family:inherit}
+a{color:inherit;text-decoration:none}
+
+/* ================= LAYOUT ================= */
+.app{display:grid; grid-template-columns:var(--side-w) 1fr; min-height:100vh}
+.side{
+  background:linear-gradient(180deg,#0d1424 0%,#131f3a 55%,#0d1424 100%);
+  color:#e8eefc; padding:18px 14px 90px; position:sticky; top:0; height:100vh; overflow:auto;
+}
+.side::-webkit-scrollbar{width:8px}
+.side::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14); border-radius:8px}
+.brand{display:flex; align-items:center; gap:12px; padding:10px 8px 16px; border-bottom:1px solid rgba(255,255,255,.10)}
+.mark{
+  width:52px;height:52px;flex:0 0 52px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(145deg,#f59e0b,#f97316); box-shadow:0 8px 22px rgba(245,158,11,.35);
+}
+.mark svg{width:32px;height:32px}
+.brand h1{margin:0; font-size:23px; font-weight:900; letter-spacing:.3px; line-height:1.15}
+.brand p{margin:2px 0 0; font-size:11.5px; color:#9fb4e0; font-weight:600}
+.side-label{font-size:11px;font-weight:800;color:#7d90b8;letter-spacing:1.2px;margin:18px 10px 8px}
+.nav{display:flex;flex-direction:column;gap:3px}
+.nav button{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:right;cursor:pointer;
+  background:transparent;border:0;color:#c6d3ea;padding:10px 12px;border-radius:11px;
+  font-size:14.5px;font-weight:700;transition:.16s;position:relative;
+}
+.nav button:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav button.active{background:linear-gradient(90deg,rgba(245,158,11,.22),rgba(245,158,11,.04));color:#fff;box-shadow:inset 0 0 0 1px rgba(245,158,11,.35)}
+.nav button.active::before{content:"";position:absolute;right:-14px;top:8px;bottom:8px;width:4px;border-radius:4px;background:var(--gold)}
+.nav .ic{width:22px;text-align:center;font-size:15px;filter:saturate(1.2)}
+.nav .num{margin-inline-start:auto;font-size:11px;font-weight:800;background:rgba(255,255,255,.10);padding:2px 8px;border-radius:999px;color:#a9bde3}
+.side-foot{margin-top:22px;padding:12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font-size:11.5px;color:#9fb4e0}
+
+/* ================= TOPBAR ================= */
+.main{min-width:0;display:flex;flex-direction:column}
+.top{
+  position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line); padding:12px 22px; display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.top .t-title h2{margin:0;font-size:20px;font-weight:900}
+.top .t-title p{margin:1px 0 0;font-size:12.5px;color:var(--muted);font-weight:600}
+.top .spacer{flex:1}
+.tbtn{
+  border:1px solid var(--line); background:#fff; color:var(--ink-2); padding:9px 14px; border-radius:11px;
+  font-size:13px;font-weight:800;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px;
+}
+.tbtn:hover{border-color:#c9d5ea;box-shadow:0 4px 14px rgba(13,20,36,.07);transform:translateY(-1px)}
+.tbtn.primary{background:linear-gradient(135deg,#f59e0b,#f97316);border-color:transparent;color:#241a02}
+.tbtn.dark{background:var(--ink);color:#fff;border-color:transparent}
+.search{
+  display:flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--line);
+  border-radius:11px;padding:8px 12px;min-width:220px;
+}
+.search input{border:0;background:transparent;outline:none;font-size:13.5px;width:100%;font-weight:600}
+.wrap{padding:22px;max-width:1500px;width:100%;margin:0 auto}
+
+/* ================= PAGE ================= */
+.page{display:none;animation:fade .28s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ================= CARDS ================= */
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--rad);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+.card-h{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfdff,#f7fafe)}
+.card-h h3{margin:0;font-size:16.5px;font-weight:900}
+.card-h .sub{font-size:12px;color:var(--muted);font-weight:600}
+.card-h .spacer{flex:1}
+.card-b{padding:18px}
+.hero{
+  position:relative;overflow:hidden;border-radius:var(--rad);padding:22px 24px;color:#fff;margin-bottom:20px;
+  background:radial-gradient(120% 160% at 100% 0%,#1e3a8a 0%,#0d1424 58%,#0d1424 100%);box-shadow:var(--shadow-l);
+}
+.hero::after{content:"";position:absolute;inset:auto -50px -90px auto;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(245,158,11,.5),rgba(245,158,11,0) 62%)}
+.hero h2{position:relative;z-index:2;margin:0;font-size:23px;font-weight:900}
+.hero p{position:relative;z-index:2;margin:6px 0 0;color:#c7d2fe;font-size:13.5px;font-weight:600;max-width:760px}
+.hero .chips{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);padding:5px 13px;border-radius:999px;font-size:12px;font-weight:800}
+.chip.yt{background:rgba(14,165,233,.20);border-color:rgba(56,189,248,.45)}
+.chip.tt{background:rgba(236,72,153,.20);border-color:rgba(244,114,182,.45)}
+.chip.gd{background:rgba(245,158,11,.20);border-color:rgba(245,158,11,.5)}
+
+/* ================= KPI ================= */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--rad);padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--gold)}
+.kpi.k1::before{background:var(--yt)} .kpi.k2::before{background:var(--tt)} .kpi.k3::before{background:var(--ok)}
+.kpi.k4::before{background:var(--orange)} .kpi.k5::before{background:var(--purple)} .kpi.k6::before{background:var(--bad)}
+.kpi .lab{font-size:12.5px;font-weight:800;color:var(--muted)}
+.kpi .val{font-size:32px;font-weight:900;line-height:1.15;margin:4px 0 0;letter-spacing:-.5px}
+.kpi .foot{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:2px}
+.kpi .ic{position:absolute;top:14px;left:14px;font-size:22px;opacity:.22}
+
+/* ================= TABLE ================= */
+.tbl-wrap{overflow:auto;border-radius:14px;border:1px solid var(--line)}
+table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;background:#fff;min-width:1050px}
+table.tbl th{
+  position:sticky;top:0;z-index:5;background:#f4f7fc;color:var(--ink-2);font-weight:900;font-size:12.5px;
+  padding:11px 10px;text-align:right;border-bottom:2px solid #dbe4f2;white-space:nowrap;
+}
+table.tbl td{padding:9px 10px;border-bottom:1px solid #eef2f8;vertical-align:middle}
+table.tbl tbody tr:nth-child(even){background:#fbfdff}
+table.tbl tbody tr:hover{background:#fff8ec}
+table.tbl td[contenteditable]{outline:none;border-radius:7px;transition:.12s;min-width:60px}
+table.tbl td[contenteditable]:hover{background:#eff5ff;box-shadow:inset 0 0 0 1px #cfe0fb}
+table.tbl td[contenteditable]:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--gold)}
+.c-idx{width:44px;text-align:center;font-weight:900;color:var(--muted);background:#f7faff}
+.rowtools{display:flex;gap:6px;justify-content:center}
+.rowbtn{border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;padding:3px 8px;transition:.14s}
+.rowbtn:hover{background:#fee2e2;border-color:#fca5a5}
+select.st,.st{
+  border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:12.5px;font-weight:900;cursor:pointer;
+  background:#f8fafc;color:var(--ink-2);outline:none;
+}
+select.st[data-v="فكرة"]{background:#f1f5f9;color:#475569;border-color:#cbd5e1}
+select.st[data-v="كتابة"]{background:#ede9fe;color:#5b21b6;border-color:#c4b5fd}
+select.st[data-v="تصوير"]{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+select.st[data-v="مونتاج"]{background:#cffafe;color:#0e7490;border-color:#67e8f9}
+select.st[data-v="مراجعة"]{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+select.st[data-v="جاهز"]{background:#dcfce7;color:#166534;border-color:#86efac}
+select.st[data-v="منشور"]{background:#16a34a;color:#fff;border-color:#15803d}
+select.st[data-v="متوقف"]{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+select.st[data-v="مؤكد"]{background:#dcfce7;color:#166534;border-color:#86efac}
+select.st[data-v="بانتظار رد"]{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+select.st[data-v="ملغي"]{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:900;background:#f1f5f9;color:#475569}
+.pill.yt{background:rgba(14,165,233,.14);color:#0369a1}
+.pill.tt{background:rgba(236,72,153,.14);color:#9d174d}
+.pill.gd{background:rgba(245,158,11,.16);color:var(--gold-d)}
+.pill.pu{background:rgba(124,58,237,.14);color:#5b21b6}
+.pill.ok{background:rgba(22,163,74,.14);color:#166534}
+.pill.bad{background:rgba(220,38,38,.14);color:#991b1b}
+
+/* ================= PROGRESS ================= */
+.prog{display:flex;align-items:center;gap:9px;min-width:130px}
+.prog .track{flex:1;height:8px;border-radius:99px;background:#e8eef8;overflow:hidden}
+.prog .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#f59e0b,#f97316);transition:width .4s}
+.prog .pct{font-size:12px;font-weight:900;color:var(--ink-2);min-width:38px;text-align:center}
+.prog .pct[contenteditable]{border:1px solid var(--line);border-radius:7px;background:#fff}
+
+/* ================= KANBAN ================= */
+.kanban{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.col{background:#f7fafd;border:1px solid var(--line);border-radius:var(--rad);padding:12px;min-height:200px}
+.col h4{margin:0 0 10px;font-size:14px;font-weight:900;display:flex;align-items:center;gap:8px}
+.col h4 .cnt{margin-inline-start:auto;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11.5px;padding:1px 9px;color:var(--muted)}
+.tk{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:9px;box-shadow:0 4px 12px rgba(13,20,36,.05)}
+.tk h5{margin:0 0 4px;font-size:13.5px;font-weight:900}
+.tk .meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);font-weight:700}
+.tk.yt{border-left-color:var(--yt)} .tk.tt{border-left-color:var(--tt)} .tk.ok{border-left-color:var(--ok)}
+
+/* ================= CALENDAR ================= */
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}
+.cal .dh{font-size:12.5px;font-weight:900;color:var(--muted);text-align:center;padding:6px 0}
+.day{background:#fff;border:1px solid var(--line);border-radius:12px;min-height:132px;padding:9px;position:relative}
+.day .dnum{font-size:12.5px;font-weight:900;color:var(--ink-2)}
+.day .dnum span{font-size:10.5px;color:var(--muted);font-weight:700}
+.ev{display:block;font-size:11.5px;font-weight:800;border-radius:8px;padding:5px 8px;margin-top:6px;background:rgba(14,165,233,.14);color:#075985}
+.ev.tt{background:rgba(236,72,153,.14);color:#9d174d}
+.ev.gd{background:rgba(245,158,11,.18);color:var(--gold-d)}
+.ev.ok{background:rgba(22,163,74,.16);color:#166534}
+
+/* ================= TEAM ================= */
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px}
+.mgr{background:#fff;border:1px solid var(--line);border-radius:var(--rad);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.mgr::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--gold)}
+.mgr.c1::before{background:linear-gradient(90deg,#f59e0b,#f97316)}
+.mgr.c2::before{background:linear-gradient(90deg,#0ea5e9,#0369a1)}
+.mgr.c3::before{background:linear-gradient(90deg,#7c3aed,#a855f7)}
+.mgr.c4::before{background:linear-gradient(90deg,#ec4899,#be185d)}
+.mgr .head{display:flex;align-items:center;gap:12px}
+.avatar{width:52px;height:52px;flex:0 0 52px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:19px;color:#fff;background:linear-gradient(145deg,#f59e0b,#f97316)}
+.avatar.c2{background:linear-gradient(145deg,#38bdf8,#0369a1)} .avatar.c3{background:linear-gradient(145deg,#a78bfa,#6d28d9)} .avatar.c4{background:linear-gradient(145deg,#f472b6,#be185d)}
+.mgr .head .nm{font-size:17px;font-weight:900;line-height:1.2}
+.mgr .head .rl{font-size:12px;color:var(--muted);font-weight:700}
+.mgr .stats{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.mgr .stats b{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:12px;font-weight:900;display:block}
+.mgr .stats b i{display:block;font-style:normal;font-size:10.5px;color:var(--muted);font-weight:700}
+.mgr .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.mgr .line{margin-top:12px;font-size:12.5px;color:var(--muted);font-weight:700}
+
+/* ================= MISC ================= */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.note{background:var(--soft);border:1px dashed #cdd9ec;border-radius:12px;padding:14px;font-size:13.5px;font-weight:600;color:var(--ink-2)}
+.note b{color:var(--gold-d)}
+.bars{display:flex;flex-direction:column;gap:12px}
+.bar{display:grid;grid-template-columns:150px 1fr 48px;align-items:center;gap:12px;font-size:13px;font-weight:800}
+.bar .t{height:14px;border-radius:99px;background:#e8eef8;overflow:hidden}
+.bar .f{height:100%;border-radius:99px;background:linear-gradient(90deg,#0ea5e9,#1e3a8a)}
+.bar .f.g{background:linear-gradient(90deg,#f59e0b,#f97316)}
+.bar .f.p{background:linear-gradient(90deg,#ec4899,#be185d)}
+.bar .f.ok{background:linear-gradient(90deg,#22c55e,#15803d)}
+.bar .v{text-align:center;font-weight:900;color:var(--ink-2)}
+.chklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.chklist li{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:13.5px;font-weight:700}
+.chklist input{width:17px;height:17px;margin-top:2px;accent-color:var(--gold)}
+.timeline{border-inline-start:3px solid #e6edf8;margin-inline-start:8px;padding-inline-start:20px;display:flex;flex-direction:column;gap:16px}
+.tl{position:relative}
+.tl::before{content:"";position:absolute;inset-inline-start:-27px;top:6px;width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid var(--gold)}
+.tl.yt::before{border-color:var(--yt)} .tl.tt::before{border-color:var(--tt)} .tl.ok::before{border-color:var(--ok)}
+.tl h5{margin:0;font-size:14px;font-weight:900}
+.tl p{margin:2px 0 0;font-size:12.5px;color:var(--muted);font-weight:600}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:12.5px;font-weight:900;color:var(--ink-2)}
+.fld input,.fld select,.fld textarea{
+  border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:13.5px;font-weight:600;background:#fff;outline:none;
+}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,158,11,.16)}
+.toast{
+  position:fixed;inset-block-end:22px;inset-inline-start:50%;transform:translateX(50%) translateY(120%);
+  background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:800;z-index:99;
+  transition:.3s;box-shadow:var(--shadow-l);
+}
+.toast.show{transform:translateX(50%) translateY(0)}
+.hint{font-size:12px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:7px;margin-top:8px}
+.badge-num{background:var(--ink);color:#fff;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:900}
+.sec-title{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:900;margin:26px 0 12px;padding-inline-start:12px;border-inline-start:5px solid var(--gold)}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* ============ ESSENTIAL MODULES — زوايا التصوير + المونتاج ============ */
+.nav button.ess{background:linear-gradient(90deg,rgba(14,165,233,.12),transparent)}
+.nav button.ess.active{background:linear-gradient(90deg,rgba(245,158,11,.26),rgba(245,158,11,.05))}
+.tagess{font-size:10px;font-weight:900;background:linear-gradient(135deg,#f59e0b,#f97316);color:#241a02;border-radius:999px;padding:1px 7px;margin-inline-start:4px}
+.essbanner{display:flex;align-items:center;gap:10px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 14px;font-size:13.5px;font-weight:800;color:#92400e;margin-bottom:16px}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
+.phone{background:#fff;border:1px solid var(--line);border-radius:var(--rad);box-shadow:var(--shadow);overflow:hidden}
+.phone .ph{display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;background:linear-gradient(135deg,#0ea5e9,#0d1424)}
+.phone.p2 .ph{background:linear-gradient(135deg,#7c3aed,#0d1424)}
+.phone .ph .ico{font-size:25px}
+.phone .ph h4{margin:0;font-size:16.5px;font-weight:900}
+.phone .ph p{margin:2px 0 0;font-size:11.5px;font-weight:700;color:#cbd5e1}
+.phone .ph .role{margin-inline-start:auto;background:linear-gradient(135deg,#f59e0b,#f97316);color:#241a02;font-size:11.5px;font-weight:900;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.phone .pb{padding:14px 16px}
+.phone dl{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin:0;font-size:13px}
+.phone dt{font-weight:900;color:var(--muted);white-space:nowrap}
+.phone dd{margin:0;font-weight:700}
+tr.core td{background:#fffbeb}
+tr.core td:first-child{box-shadow:inset 4px 0 0 var(--gold)}
+select.st[data-v="أساسي"]{background:linear-gradient(135deg,#f59e0b,#f97316);color:#241a02;border-color:#f59e0b}
+select.st[data-v="ثانوي"]{background:#eef2f8;color:#475569;border-color:#cbd5e1}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;unicode-bidi:isolate;font-size:12.5px}
+td.c{text-align:center}
+
+@media (max-width:1180px){
+  .app{grid-template-columns:1fr}
+  .side{position:relative;height:auto;padding-bottom:18px}
+  .nav{flex-direction:row;flex-wrap:wrap}
+  .nav button{width:auto}
+  .nav button.active::before{display:none}
+  .kanban{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid2{grid-template-columns:1fr}
+  .cal{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media print{
+  .side,.top,.no-print{display:none!important}
+  .app{grid-template-columns:1fr}
+  .page{display:block!important;break-before:page}
+  .wrap{padding:0;max-width:none}
+  .card{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="side">
+  <div class="brand">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#241a02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"></circle><polygon points="15.5,8.5 13.4,13.4 8.5,15.5 10.6,10.6"></polygon>
+      </svg>
+    </div>
+    <div>
+      <h1>بوصلة</h1>
+      <p>نظام متابعة الأعمال · شورت + لونج</p>
+    </div>
+  </div>
+
+  <p class="side-label">الأقسام الرئيسية</p>
+  <nav class="nav" id="nav">
+    <button data-go="p1" class="active"><span class="ic">📊</span> لوحة التحكم <span class="num">1</span></button>
+    <button data-go="p2"><span class="ic">⚡</span> خطة الشورت <span class="num">2</span></button>
+    <button data-go="p3"><span class="ic">🎬</span> متابعة الشورت <span class="num">3</span></button>
+    <button data-go="p4"><span class="ic">🎙️</span> بودكاست بوصلة <span class="num">4</span></button>
+    <button data-go="p5"><span class="ic">🎞️</span> متابعة اللونج <span class="num">5</span></button>
+    <button data-go="p11" class="ess"><span class="ic">📱</span> زوايا التصوير <span class="tagess">أساسي</span> <span class="num">6</span></button>
+    <button data-go="p12" class="ess"><span class="ic">✂️</span> المونتاج <span class="tagess">أساسي</span> <span class="num">7</span></button>
+    <button data-go="p6"><span class="ic">🗓️</span> التقويم الأسبوعي <span class="num">8</span></button>
+    <button data-go="p7"><span class="ic">🧠</span> بنك الأفكار <span class="num">9</span></button>
+    <button data-go="p8"><span class="ic">👥</span> الفريق والمدراء <span class="num">10</span></button>
+    <button data-go="p9"><span class="ic">📈</span> التقارير <span class="num">11</span></button>
+    <button data-go="p10"><span class="ic">⚙️</span> الإعدادات والحفظ <span class="num">12</span></button>
+    <button data-go="p13"><span class="ic">🧩</span> قوالب السكريبتات <span class="num">13</span></button>
+  </nav>
+  <div class="side-foot">
+    <b style="color:#f5c46b">13 قسم</b> — منها وحدتان أساسيتان: زوايا التصوير (تلفونان) والمونتاج.<br>
+    <b style="color:#f5c46b">تعديل مباشر:</b> اضغط أي خلية واكتب — الحفظ تلقائي في المتصفح.
+  </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<div class="main">
+  <div class="top">
+    <div class="t-title">
+      <h2 id="pageTitle">لوحة التحكم</h2>
+      <p id="pageSub">نظرة شاملة على إنتاج الشورت واللونج — بودكاست بوصلة</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="search no-print">
+      <span>🔍</span>
+      <input id="q" type="search" placeholder="ابحث في الجداول الحالية...">
+    </div>
+    <button class="tbtn no-print" onclick="addRow()">➕ صف جديد</button>
+    <button class="tbtn no-print" onclick="saveNow()">💾 حفظ</button>
+    <button class="tbtn dark no-print" onclick="window.print()">🖨️ طباعة / PDF</button>
+    <button class="tbtn primary no-print" onclick="exportJSON()">⬇️ تصدير نسخة</button>
+  </div>
+
+  <div class="wrap">
+
+<!-- ============================ PAGE 1 : DASHBOARD ============================ -->
+<section class="page active" id="p1">
+  <div class="hero">
+    <h2>بودكاست بوصلة · نظام متابعة الإنتاج</h2>
+    <p>كل ما يخص الشورت فيديو (تيك توك / ريلز / شورتس) واللونج فيديو (يوتيوب) في مكان واحد: الخطة، المسؤول، الحالة، ونسبة الإنجاز — قابل للتعديل بالكامل.</p>
+    <div class="chips">
+      <span class="chip gd">الإدارة: هشام وليد · أياد الشربيني · محمد سنان</span>
+      <span class="chip yt">لونج فيديو — يوتيوب</span>
+      <span class="chip tt">شورت فيديو — تيك توك / ريلز</span>
+      <span class="chip">⭐ تصوير بتلفونين — أساسي + ثانٍ</span>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi k1"><span class="ic">⚡</span><div class="lab">إجمالي الشورتات</div><div class="val" id="kShort">0</div><div class="foot">هذا الموسم</div></div>
+    <div class="kpi k2"><span class="ic">🎙️</span><div class="lab">حلقات اللونج</div><div class="val" id="kLong">0</div><div class="foot">بودكاست بوصلة</div></div>
+    <div class="kpi k4"><span class="ic">🎬</span><div class="lab">قيد التنفيذ</div><div class="val" id="kProg">0</div><div class="foot">تصوير / مونتاج / مراجعة</div></div>
+    <div class="kpi k3"><span class="ic">✅</span><div class="lab">جاهز للنشر</div><div class="val" id="kReady">0</div><div class="foot">بانتظار الجدولة</div></div>
+    <div class="kpi k5"><span class="ic">🚀</span><div class="lab">تم النشر</div><div class="val" id="kDone">0</div><div class="foot">مكتمل</div></div>
+    <div class="kpi k6"><span class="ic">⛔</span><div class="lab">متوقف / متأخر</div><div class="val" id="kStop">0</div><div class="foot">يحتاج تدخل</div></div>
+  </div>
+
+  <div class="card" style="border-color:#fde68a">
+    <div class="card-h" style="background:linear-gradient(180deg,#fffdf5,#fffbeb)"><h3>⭐ وحدتان أساسيتان</h3><div class="spacer"></div>
+      <span class="sub">إعداد التصوير بالتلفونين + مواصفات المونتاج</span></div>
+    <div class="card-b" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+      <div class="note" style="cursor:pointer" onclick="go('p11')">
+        <b>📱 زوايا التصوير — تلفونان</b><br>
+        تلفون 1 أساسي (A-Cam) + تلفون 2 ثانٍ (B-Cam) — 12 زاوية بوصف تنفيذي وقائمة تجهيز قبل كل جلسة.<br>
+        <span class="badge-num">افتح الوحدة ←</span>
+      </div>
+      <div class="note" style="cursor:pointer" onclick="go('p12')">
+        <b>✂️ المونتاج</b><br>
+        مواصفات الشورت واللونج: المقاس، الإيقاع، الصوت، الألوان، الترجمة، الغلاف + 8 مراحل تنفيذ لكل ملف.<br>
+        <span class="badge-num">افتح الوحدة ←</span>
+      </div>
+      <div class="note" style="cursor:pointer" onclick="go('p13')">
+        <b>🧩 قوالب السكريبتات</b><br>
+        سكريبت الحلقة الطويلة (يوتيوب) + اقتطاع الشورت (تيك توك) من نفس الحلقة — قوالب جاهزة للنسخ والتعديل.<br>
+        <span class="badge-num">افتح القوالب ←</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>📌 توزيع مراحل الإنتاج</h3><div class="spacer"></div><span class="sub">يتحدث تلقائياً</span></div>
+      <div class="card-b bars" id="stageBars">
+        <div class="bar"><span>فكرة / كتابة</span><div class="t"><div class="f" data-f="idea" style="width:0%"></div></div><div class="v" data-p="idea">0</div></div>
+        <div class="bar"><span>تصوير</span><div class="t"><div class="f g" data-f="shoot" style="width:0%"></div></div><div class="v" data-p="shoot">0</div></div>
+        <div class="bar"><span>مونتاج</span><div class="t"><div class="f p" data-f="edit" style="width:0%"></div></div><div class="v" data-p="edit">0</div></div>
+        <div class="bar"><span>مراجعة واعتماد</span><div class="t"><div class="f g" data-f="rev" style="width:0%"></div></div><div class="v" data-p="rev">0</div></div>
+        <div class="bar"><span>جاهز / منشور</span><div class="t"><div class="f ok" data-f="done" style="width:0%"></div></div><div class="v" data-p="done">0</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>⏱️ أقرب المواعيد الحرجة</h3><div class="spacer"></div><span class="sub">عدّلها من صفحات الجداول</span></div>
+      <div class="card-b">
+        <div class="timeline">
+          <div class="tl yt"><h5>تصوير حلقة اللونج القادمة</h5><p>الاستوديو الرئيسي — مسؤول التصوير: هشام وليد</p></div>
+          <div class="tl tt"><h5>تسليم 4 شورتات للمراجعة</h5><p>مسؤول المونتاج — اعتماد: أياد الشربيني</p></div>
+          <div class="tl gd" data-edit="dash-tl3"><h5 contenteditable>تجهيز أسئلة الضيف</h5><p contenteditable>كتابة المحاور النهائية — هشام وليد</p></div>
+          <div class="tl ok" data-edit="dash-tl4"><h5 contenteditable>جدولة النشر الأسبوعي</h5><p contenteditable>توزيع المواعيد — محمد سنان</p></div>
+        </div>
+        <div class="hint">💡 اضغط على أي نص في الرابط الزمني لتعديله.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3>👥 المدراء ونصيب كل واحد</h3><div class="spacer"></div><span class="sub">ملخص سريع</span></div>
+    <div class="card-b team">
+      <div class="mgr c1"><div class="head"><div class="avatar">ه.و</div><div><div class="nm">هشام وليد</div><div class="rl">مدير الإنتاج والتصوير والمونتاج</div></div></div>
+        <div class="stats"><b><span data-count="هشام وليد">0</span><i>مهام</i></b><b><span data-pub="هشام وليد">0</span><i>منشور</i></b></div>
+        <div class="tags"><span class="pill gd">اعتماد السكريبت</span><span class="pill yt">التصوير — تلفونين</span><span class="pill pu">المونتاج</span></div>
+        <div class="line">يشرف على الجدول العام، ويضبط زوايا التصوير بالتلفونين والمونتاج النهائي.</div></div>
+      <div class="mgr c3"><div class="head"><div class="avatar c3">أياد</div><div><div class="nm">أياد الشربيني</div><div class="rl">مدير المحتوى والكتابة</div></div></div>
+        <div class="stats"><b><span data-count="أياد">0</span><i>مهام</i></b><b><span data-pub="أياد">0</span><i>منشور</i></b></div>
+        <div class="line">يتابع الأفكار والمحاور وكتابة السكريبت.</div></div>
+      <div class="mgr c4"><div class="head"><div class="avatar c4">سنان</div><div><div class="nm">محمد سنان</div><div class="rl">مدير النشر والتوزيع</div></div></div>
+        <div class="stats"><b><span data-count="سنان">0</span><i>مهام</i></b><b><span data-pub="سنان">0</span><i>منشور</i></b></div>
+        <div class="line">يجدول النشر ويتابع التفاعل والأرقام.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 2 : SHORTS PLAN ============================ -->
+<section class="page" id="p2">
+  <div class="card">
+    <div class="card-h"><h3>⚡ خطة الشورت فيديو — 10 أفكار</h3><div class="spacer"></div>
+      <span class="sub">10 صفوف قابلة للزيادة</span>
+      <button class="tbtn no-print" onclick="addRow()">➕ صف</button></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-shorts" data-edit="tbl-shorts">
+          <thead>
+            <tr>
+              <th>#</th><th>الفكرة / العنوان</th><th>الخطاف (أول 3 ثواني)</th><th>المسؤول</th><th>المنصة</th>
+              <th>تاريخ النشر</th><th>الحالة</th><th>نسبة الإنجاز</th><th>ملاحظات</th><th class="no-print">أدوات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="c-idx">1</td>
+              <td contenteditable>ليش بدأنا بودكاست بوصلة؟</td>
+              <td contenteditable>سؤال مباشر + لقطة سريعة</td>
+              <td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="تيك توك" onchange="setV(this)"><option>تيك توك</option><option>ريلز</option><option>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-12</td>
+              <td><select class="st" data-v="منشور" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option selected>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="100"><div class="prog"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct" contenteditable oninput="setProg(this)">100%</span></div></td>
+              <td contenteditable>تم — تفاعل عالي</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">2</td>
+              <td contenteditable>3 أخطاء في أول 10 ثواني من الفيديو</td>
+              <td contenteditable>خطأ شائع بصوت عالٍ</td>
+              <td contenteditable>أياد</td>
+              <td><select class="st" data-v="تيك توك" onchange="setV(this)"><option selected>تيك توك</option><option>ريلز</option><option>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-14</td>
+              <td><select class="st" data-v="منشور" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option selected>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="100"><div class="prog"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct" contenteditable oninput="setProg(this)">100%</span></div></td>
+              <td contenteditable>—</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">3</td>
+              <td contenteditable>قصة ضيف الحلقة القادمة</td>
+              <td contenteditable>مقطع تشويقي من الحلقة</td>
+              <td contenteditable>محمد سنان</td>
+              <td><select class="st" data-v="كلها" onchange="setV(this)"><option>تيك توك</option><option>ريلز</option><option>شورتس</option><option selected>كلها</option></select></td>
+              <td contenteditable>2026-10-16</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option selected>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="85"><div class="prog"><div class="track"><div class="fill" style="width:85%"></div></div><span class="pct" contenteditable oninput="setProg(this)">85%</span></div></td>
+              <td contenteditable>بانتظار الموافقة النهائية</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">4</td>
+              <td contenteditable>خلف الكواليس — تجهيز الاستوديو</td>
+              <td contenteditable>لقطة حماسية بدون كلام</td>
+              <td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="ريلز" onchange="setV(this)"><option>تيك توك</option><option selected>ريلز</option><option>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-18</td>
+              <td><select class="st" data-v="مونتاج" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option selected>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="60"><div class="prog"><div class="track"><div class="fill" style="width:60%"></div></div><span class="pct" contenteditable oninput="setProg(this)">60%</span></div></td>
+              <td contenteditable>يحتاج موسيقى أهدأ</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">5</td>
+              <td contenteditable>رأي الشارع في سؤال واحد</td>
+              <td contenteditable>إجابة صادمة من أول شخص</td>
+              <td contenteditable>محمد سنان</td>
+              <td><select class="st" data-v="تيك توك" onchange="setV(this)"><option selected>تيك توك</option><option>ريلز</option><option>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-20</td>
+              <td><select class="st" data-v="تصوير" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option selected>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="40"><div class="prog"><div class="track"><div class="fill" style="width:40%"></div></div><span class="pct" contenteditable oninput="setProg(this)">40%</span></div></td>
+              <td contenteditable>تم التصوير في وسط البلد</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">6</td>
+              <td contenteditable>أسطورة أم حقيقة في مجالك؟</td>
+              <td contenteditable>كلمة «غلط» كبيرة على الشاشة</td>
+              <td contenteditable>أياد الشربيني</td>
+              <td><select class="st" data-v="شورتس" onchange="setV(this)"><option>تيك توك</option><option>ريلز</option><option selected>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-22</td>
+              <td><select class="st" data-v="كتابة" onchange="setV(this);recalc()"><option>فكرة</option><option selected>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="25"><div class="prog"><div class="track"><div class="fill" style="width:25%"></div></div><span class="pct" contenteditable oninput="setProg(this)">25%</span></div></td>
+              <td contenteditable>السكريبت شبه جاهز</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">7</td>
+              <td contenteditable>نصيحة في 30 ثانية</td>
+              <td contenteditable>وعد بنتيجة فورية</td>
+              <td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="كلها" onchange="setV(this)"><option>تيك توك</option><option>ريلز</option><option>شورتس</option><option selected>كلها</option></select></td>
+              <td contenteditable>2026-10-24</td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option selected>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="75"><div class="prog"><div class="track"><div class="fill" style="width:75%"></div></div><span class="pct" contenteditable oninput="setProg(this)">75%</span></div></td>
+              <td contenteditable>مراجعة النص فقط</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">8</td>
+              <td contenteditable>تفاعل الجمهور — أفضل تعليق</td>
+              <td contenteditable>قراءة التعليق بصوت ساخر</td>
+              <td contenteditable>محمد سنان</td>
+              <td><select class="st" data-v="تيك توك" onchange="setV(this)"><option selected>تيك توك</option><option>ريلز</option><option>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-26</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="10"><div class="prog"><div class="track"><div class="fill" style="width:10%"></div></div><span class="pct" contenteditable oninput="setProg(this)">10%</span></div></td>
+              <td contenteditable>يحتاج موافقة الجمهور</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">9</td>
+              <td contenteditable>مقارنة سريعة: قبل / بعد</td>
+              <td contenteditable>سبليت سكرين مباشر</td>
+              <td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="ريلز" onchange="setV(this)"><option>تيك توك</option><option selected>ريلز</option><option>شورتس</option><option>كلها</option></select></td>
+              <td contenteditable>2026-10-28</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="5"><div class="prog"><div class="track"><div class="fill" style="width:5%"></div></div><span class="pct" contenteditable oninput="setProg(this)">5%</span></div></td>
+              <td contenteditable>—</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">10</td>
+              <td contenteditable>أكثر سؤال يتكرر من المتابعين</td>
+              <td contenteditable>«سألتموني كثيراً عن...»</td>
+              <td contenteditable>أياد الشربيني</td>
+              <td><select class="st" data-v="كلها" onchange="setV(this)"><option>تيك توك</option><option>ريلز</option><option>شورتس</option><option selected>كلها</option></select></td>
+              <td contenteditable>2026-10-30</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="0"><div class="prog"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct" contenteditable oninput="setProg(this)">0%</span></div></td>
+              <td contenteditable>مرشح قوي للانتشار</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <span class="pill">فكرة</span><span class="pill pu">كتابة</span><span class="pill yt">تصوير</span>
+        <span class="pill">مونتاج</span><span class="pill gd">مراجعة</span><span class="pill ok">جاهز</span><span class="pill bad">متوقف</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 3 : SHORTS TRACK ============================ -->
+<section class="page" id="p3">
+  <div class="card">
+    <div class="card-h"><h3>🎬 متابعة الشورت — خط الإنتاج</h3><div class="spacer"></div><span class="sub">اسحب المهمة ذهنياً وحدّث حالتها من الصفحة 2</span></div>
+    <div class="card-b">
+      <div class="kanban">
+        <div class="col">
+          <h4>✍️ كتابة السكريبت <span class="cnt">3</span></h4>
+          <div class="tk"><h5 contenteditable>أسطورة أم حقيقة في مجالك؟</h5><div class="meta">👤 أياد الشربيني · 🗓️ 22 أكتوبر</div></div>
+          <div class="tk tt"><h5 contenteditable>تفاعل الجمهور — أفضل تعليق</h5><div class="meta">👤 محمد سنان · 🗓️ 26 أكتوبر</div></div>
+          <div class="tk"><h5 contenteditable>مقارنة سريعة: قبل / بعد</h5><div class="meta">👤 هشام وليد · 🗓️ 28 أكتوبر</div></div>
+        </div>
+        <div class="col">
+          <h4>🎥 تصوير <span class="cnt">1</span></h4>
+          <div class="tk yt"><h5 contenteditable>رأي الشارع في سؤال واحد</h5><div class="meta">👤 محمد سنان · 📍 وسط البلد</div></div>
+          <div class="tk yt"><h5 contenteditable>صف جديد — اضغط لإضافة فكرة</h5><div class="meta">👤 المسؤول · 🗓️ التاريخ</div></div>
+        </div>
+        <div class="col">
+          <h4>✂️ مونتاج <span class="cnt">1</span></h4>
+          <div class="tk"><h5 contenteditable>خلف الكواليس — تجهيز الاستوديو</h5><div class="meta">👤 هشام وليد · ⏳ 60%</div></div>
+        </div>
+        <div class="col">
+          <h4>✅ مراجعة ونشر <span class="cnt">3</span></h4>
+          <div class="tk ok"><h5 contenteditable>نصيحة في 30 ثانية</h5><div class="meta">👤 هشام وليد · 🔎 مراجعة</div></div>
+          <div class="tk ok"><h5 contenteditable>قصة ضيف الحلقة القادمة</h5><div class="meta">👤 محمد سنان · ✅ جاهز</div></div>
+          <div class="tk ok"><h5 contenteditable>3 أخطاء في أول 10 ثواني</h5><div class="meta">👤 أياد · 🚀 منشور</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>🧩 قائمة تحقق كل شورت</h3><div class="spacer"></div><span class="sub">تُحفظ تلقائياً</span></div>
+      <div class="card-b">
+        <ul class="chklist">
+          <li><input type="checkbox" checked><span contenteditable>فكرة مكتوبة بخطاف واضح (أول 3 ثواني)</span></li>
+          <li><input type="checkbox" checked><span contenteditable>سكريبت 30–60 ثانية + كابشن جاهز</span></li>
+          <li><input type="checkbox"><span contenteditable>تصوير عمودي 9:16 من تلفون 1 + زاوية ثانية بتلفون 2 (أساسي)</span></li>
+          <li><input type="checkbox"><span contenteditable>مونتاج حسب الوحدة: قطع كل 2–3 ثواني + كابشن كبير + موسيقى</span></li>
+          <li><input type="checkbox"><span contenteditable>اعتماد أياد الشربيني للمحتوى</span></li>
+          <li><input type="checkbox"><span contenteditable>جدولة النشر من محمد سنان</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>🎯 قواعد سريعة للشورت</h3></div>
+      <div class="card-b">
+        <div class="note">
+          <b>الخطاف:</b> أول 3 ثواني تحدّد كل شيء — سؤال، رقم، أو اعتراض قوي.<br>
+          <b>الإيقاع:</b> قطع كل 2–3 ثواني لتثبيت الانتباه.<br>
+          <b>الطول:</b> 25–45 ثانية هو المدى الذهبي للتيك توك وريلز.<br>
+          <b>النداء:</b> نبّه للفيديو الكامل على يوتيوب (حلقة بوصلة) في آخر 5 ثواني.
+        </div>
+        <div class="fields" style="margin-top:14px">
+          <div class="fld"><label>عدد الشورتات المستهدف أسبوعياً</label><input value="4" oninput="saveNow(true)"></div>
+          <div class="fld"><label>مدة الشورت القياسية</label><input value="30–45 ثانية" oninput="saveNow(true)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 4 : PODCAST LONG ============================ -->
+<section class="page" id="p4">
+  <div class="hero" style="background:radial-gradient(120% 160% at 100% 0%,#7c3aed 0%,#0d1424 60%,#0d1424 100%)">
+    <h2>🎙️ بودكاست بوصلة — الموسم الأول</h2>
+    <p>خطة الحلقات الطويلة (يوتيوب + منصات الصوت). كل حلقة لها ضيف، محور، موعد تسجيل، موعد نشر، ومرحلة إنتاج.</p>
+    <div class="chips"><span class="chip gd">10 حلقات</span><span class="chip yt">يوتيوب — لونج</span><span class="chip">مدة الحلقة: 45–90 دقيقة</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3>🎞️ جدول الحلقات</h3><div class="spacer"></div><span class="sub">قابل للتعديل بالكامل</span>
+      <button class="tbtn no-print" onclick="addRow()">➕ حلقة</button></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-long" data-edit="tbl-long">
+          <thead>
+            <tr><th>#</th><th>الحلقة</th><th>الضيف</th><th>المحور الرئيسي</th><th>المدير المسؤول</th>
+              <th>تاريخ التسجيل</th><th>تاريخ النشر</th><th>الحالة</th><th>نسبة الإنجاز</th><th class="no-print">أدوات</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="c-idx">1</td>
+              <td contenteditable>حلقة 01 — البداية</td>
+              <td contenteditable>ضيوف المؤسسين</td>
+              <td contenteditable>لماذا بوصلة؟ ولمن نصنع المحتوى؟</td>
+              <td contenteditable>هشام وليد</td>
+              <td contenteditable>2026-10-05</td>
+              <td contenteditable>2026-10-11</td>
+              <td><select class="st" data-v="منشور" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option selected>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="100"><div class="prog"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct" contenteditable oninput="setProg(this)">100%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">2</td>
+              <td contenteditable>حلقة 02 — صناعة المحتوى</td>
+              <td contenteditable>صانع محتوى ضيف</td>
+              <td contenteditable>كيف تبني جمهوراً من الصفر</td>
+              <td contenteditable>أياد الشربيني</td>
+              <td contenteditable>2026-10-12</td>
+              <td contenteditable>2026-10-18</td>
+              <td><select class="st" data-v="مونتاج" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option selected>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="65"><div class="prog"><div class="track"><div class="fill" style="width:65%"></div></div><span class="pct" contenteditable oninput="setProg(this)">65%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">3</td>
+              <td contenteditable>حلقة 03 — ريادة الأعمال</td>
+              <td contenteditable>رائد أعمال</td>
+              <td contenteditable>أول مشروع وفشل أول تجربة</td>
+              <td contenteditable>هشام وليد</td>
+              <td contenteditable>2026-10-19</td>
+              <td contenteditable>2026-10-25</td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option selected>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="80"><div class="prog"><div class="track"><div class="fill" style="width:80%"></div></div><span class="pct" contenteditable oninput="setProg(this)">80%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">4</td>
+              <td contenteditable>حلقة 04 — التقنية</td>
+              <td contenteditable>مهندس برمجيات</td>
+              <td contenteditable>هل الذكاء الاصطناعي يهدد الوظائف؟</td>
+              <td contenteditable>محمد سنان</td>
+              <td contenteditable>2026-10-26</td>
+              <td contenteditable>2026-11-01</td>
+              <td><select class="st" data-v="تصوير" onchange="setV(this);recalc()"><option>فكرة</option><option>كتابة</option><option selected>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="45"><div class="prog"><div class="track"><div class="fill" style="width:45%"></div></div><span class="pct" contenteditable oninput="setProg(this)">45%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">5</td>
+              <td contenteditable>حلقة 05 — الصحة النفسية</td>
+              <td contenteditable>أخصائي نفسي</td>
+              <td contenteditable>الاحتراق الوظيفي والتعافي</td>
+              <td contenteditable>هشام وليد</td>
+              <td contenteditable>2026-11-02</td>
+              <td contenteditable>2026-11-08</td>
+              <td><select class="st" data-v="كتابة" onchange="setV(this);recalc()"><option>فكرة</option><option selected>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="30"><div class="prog"><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct" contenteditable oninput="setProg(this)">30%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">6</td>
+              <td contenteditable>حلقة 06 — المال</td>
+              <td contenteditable>مستشار مالي</td>
+              <td contenteditable>إدارة مصاريف الشهر بذكاء</td>
+              <td contenteditable>محمد سنان</td>
+              <td contenteditable>2026-11-09</td>
+              <td contenteditable>2026-11-15</td>
+              <td><select class="st" data-v="كتابة" onchange="setV(this);recalc()"><option>فكرة</option><option selected>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="20"><div class="prog"><div class="track"><div class="fill" style="width:20%"></div></div><span class="pct" contenteditable oninput="setProg(this)">20%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">7</td>
+              <td contenteditable>حلقة 07 — التعليم</td>
+              <td contenteditable>معلم / مدرب</td>
+              <td contenteditable>طرق المذاكرة التي تعمل فعلاً</td>
+              <td contenteditable>أياد الشربيني</td>
+              <td contenteditable>2026-11-16</td>
+              <td contenteditable>2026-11-22</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="10"><div class="prog"><div class="track"><div class="fill" style="width:10%"></div></div><span class="pct" contenteditable oninput="setProg(this)">10%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">8</td>
+              <td contenteditable>حلقة 08 — السفر</td>
+              <td contenteditable>رحّالة</td>
+              <td contenteditable>أرخص طريقة تسافر بها</td>
+              <td contenteditable>هشام وليد</td>
+              <td contenteditable>2026-11-23</td>
+              <td contenteditable>2026-11-29</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="5"><div class="prog"><div class="track"><div class="fill" style="width:5%"></div></div><span class="pct" contenteditable oninput="setProg(this)">5%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">9</td>
+              <td contenteditable>حلقة 09 — الرياضة</td>
+              <td contenteditable>مدرب لياقة</td>
+              <td contenteditable>البدء من الصفر بدون إصابات</td>
+              <td contenteditable>هشام وليد</td>
+              <td contenteditable>2026-11-30</td>
+              <td contenteditable>2026-12-06</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="0"><div class="prog"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct" contenteditable oninput="setProg(this)">0%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">10</td>
+              <td contenteditable>حلقة 10 — ختام الموسم</td>
+              <td contenteditable>أفضل لحظات الموسم</td>
+              <td contenteditable>ملخص + أسئلة الجمهور</td>
+              <td contenteditable>محمد سنان</td>
+              <td contenteditable>2026-12-07</td>
+              <td contenteditable>2026-12-13</td>
+              <td><select class="st" data-v="فكرة" onchange="setV(this);recalc()"><option selected>فكرة</option><option>كتابة</option><option>تصوير</option><option>مونتاج</option><option>مراجعة</option><option>جاهز</option><option>منشور</option><option>متوقف</option></select></td>
+              <td data-prog="0"><div class="prog"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct" contenteditable oninput="setProg(this)">0%</span></div></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 5 : LONG TRACK ============================ -->
+<section class="page" id="p5">
+  <div class="card">
+    <div class="card-h"><h3>🎞️ خط إنتاج الحلقات الطويلة — خطوة بخطوة</h3><div class="spacer"></div><span class="sub">✔️ علّم الخطوة المنجزة</span></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-longsteps" data-edit="tbl-longsteps" style="min-width:1250px">
+          <thead>
+            <tr>
+              <th>#</th><th>الحلقة</th><th>تأكيد الضيف</th><th>الأسئلة والمحاور</th><th>تجهيز الاستوديو</th>
+              <th>التسجيل</th><th>مونتاج الصوت</th><th>مونتاج الفيديو</th><th>الغلاف والعنوان</th><th>الرفع والنشر</th><th>الملاحظة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="c-idx">1</td><td contenteditable>حلقة 01</td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td contenteditable>منشورة — أداء جيد</td>
+            </tr>
+            <tr>
+              <td class="c-idx">2</td><td contenteditable>حلقة 02</td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>الغلاف قيد التنفيذ — هشام وليد</td>
+            </tr>
+            <tr>
+              <td class="c-idx">3</td><td contenteditable>حلقة 03</td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>مراجعة أخيرة على القصة</td>
+            </tr>
+            <tr>
+              <td class="c-idx">4</td><td contenteditable>حلقة 04</td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>التسجيل الأسبوع القادم</td>
+            </tr>
+            <tr>
+              <td class="c-idx">5</td><td contenteditable>حلقة 05</td>
+              <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>بانتظار تأكيد الضيف</td>
+            </tr>
+            <tr>
+              <td class="c-idx">6</td><td contenteditable>حلقة 06</td>
+              <td><input type="checkbox"></td><td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>كتابة المحاور</td>
+            </tr>
+            <tr>
+              <td class="c-idx">7</td><td contenteditable>حلقة 07</td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>قائمة الضيوف المقترحة</td>
+            </tr>
+            <tr>
+              <td class="c-idx">8</td><td contenteditable>حلقة 08</td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>—</td>
+            </tr>
+            <tr>
+              <td class="c-idx">9</td><td contenteditable>حلقة 09</td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>—</td>
+            </tr>
+            <tr>
+              <td class="c-idx">10</td><td contenteditable>حلقة 10</td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td><input type="checkbox"></td><td><input type="checkbox"></td>
+              <td contenteditable>ختام الموسم</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hint">✅ كل خطوة تُعلَّم تُحفظ تلقائياً في متصفحك.</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>📅 مواعيد الضيوف والتسجيل</h3><div class="spacer"></div><button class="tbtn no-print" onclick="addRow()">➕</button></div>
+      <div class="card-b">
+        <div class="tbl-wrap">
+          <table class="tbl" id="tbl-guests" data-edit="tbl-guests" style="min-width:640px">
+            <thead><tr><th>الضيف</th><th>الحلقة</th><th>الموعد</th><th>حالة التأكيد</th><th class="no-print"></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable>صنّاع محتوى</td><td contenteditable>حلقة 02</td><td contenteditable>12 أكتوبر</td>
+                <td><select class="st" data-v="مؤكد" onchange="setV(this)"><option selected>مؤكد</option><option>بانتظار رد</option><option>ملغي</option></select></td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>رائد أعمال</td><td contenteditable>حلقة 03</td><td contenteditable>19 أكتوبر</td>
+                <td><select class="st" data-v="مؤكد" onchange="setV(this)"><option selected>مؤكد</option><option>بانتظار رد</option><option>ملغي</option></select></td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>مهندس برمجيات</td><td contenteditable>حلقة 04</td><td contenteditable>26 أكتوبر</td>
+                <td><select class="st" data-v="بانتظار رد" onchange="setV(this)"><option>مؤكد</option><option selected>بانتظار رد</option><option>ملغي</option></select></td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>—</td><td contenteditable>حلقة 05</td><td contenteditable>02 نوفمبر</td>
+                <td><select class="st" data-v="بانتظار رد" onchange="setV(this)"><option>مؤكد</option><option selected>بانتظار رد</option><option>ملغي</option></select></td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>🎚️ معايير جودة اللونج</h3></div>
+      <div class="card-b">
+        <ul class="chklist">
+          <li><input type="checkbox" checked><span contenteditable>مقدمة 30 ثانية تحدد موضوع الحلقة</span></li>
+          <li><input type="checkbox" checked><span contenteditable>صوت نقي + إزالة الضوضاء</span></li>
+          <li><input type="checkbox"><span contenteditable>فصول (Chapters) في وصف يوتيوب</span></li>
+          <li><input type="checkbox"><span contenteditable>اقتباسات قصيرة تُقطع كشورت من نفس الحلقة</span></li>
+          <li><input type="checkbox"><span contenteditable>وصف + كلمات مفتاحية + غلاف</span></li>
+          <li><input type="checkbox"><span contenteditable>نسخة صوتية لمنصات البودكاست</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 11 : CAMERA ANGLES — 2 PHONES ============================ -->
+<section class="page" id="p11">
+  <div class="essbanner">⭐ <b>وحدة أساسية:</b> إعداد التصوير بالتلفونين وزوايا الكاميرا — تُطبَّق على الشورت واللونج معاً. كل حقل هنا قابل للتعديل مباشرة.</div>
+
+  <div class="phones">
+    <div class="phone p1">
+      <div class="ph"><span class="ico">📱</span>
+        <div><h4 contenteditable>تلفون 1 — الأساسي</h4><p contenteditable>A-Cam · الفيديو الرئيسي</p></div>
+        <span class="role">أساسي</span></div>
+      <div class="pb">
+        <dl>
+          <dt>الدور</dt><dd contenteditable>الكاميرا الأساسية — عليها يُبنى الفيديو النهائي</dd>
+          <dt>التثبيت</dt><dd contenteditable>ترايبود ثابت (ويمكن جيمبال للمشاهد المتحركة)</dd>
+          <dt>الزاوية</dt><dd contenteditable>أمامية مباشرة على مستوى العين</dd>
+          <dt>الدقة</dt><dd contenteditable class="mono">1080p / 4K · 30fps</dd>
+          <dt>الصوت</dt><dd contenteditable>مايك خارجي موصول بالتلفون — الصوت المُعتمد</dd>
+          <dt>الإضاءة</dt><dd contenteditable>إضاءة ناعمة من الأمام + عاكس</dd>
+          <dt>التخزين</dt><dd contenteditable>مساحة فارغة 20GB قبل التصوير</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="phone p2">
+      <div class="ph"><span class="ico">📱</span>
+        <div><h4 contenteditable>تلفون 2 — الثاني</h4><p contenteditable>B-Cam · زوايا القطع والب-رول</p></div>
+        <span class="role">مكمّل للتصوير</span></div>
+      <div class="pb">
+        <dl>
+          <dt>الدور</dt><dd contenteditable>كاميرا ثانية لزوايا القطع والكواليس والردود</dd>
+          <dt>التثبيت</dt><dd contenteditable>حامل قصير أو يد — زاوية 45° وثابتة قدر الإمكان</dd>
+          <dt>الزاوية</dt><dd contenteditable>جانبية 45° + فوق الكتف</dd>
+          <dt>الدقة</dt><dd contenteditable class="mono">1080p · 30fps (نفس إعدادات تلفون 1)</dd>
+          <dt>الصوت</dt><dd contenteditable>صامت — للتسجيل الاحتياطي فقط</dd>
+          <dt>الإضاءة</dt><dd contenteditable>تعتمد إضاءة نفس المشهد (بدون فلاش مباشر)</dd>
+          <dt>التخزين</dt><dd contenteditable>مساحة فارغة 20GB قبل التصوير</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <div class="card-h"><h3>🎥 جدول زوايا التصوير</h3><div class="spacer"></div><span class="sub">الصفوف المُعلَّمة بـ «أساسي» هي الحد الأدنى لتصوير أي محتوى</span>
+      <button class="tbtn no-print" onclick="addRow()">➕ زاوية</button></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-angles" data-edit="tbl-angles" style="min-width:1180px">
+          <thead>
+            <tr><th>#</th><th>الزاوية / الكادر</th><th>الوصف التنفيذي</th><th>الكاميرا</th><th>الارتفاع والمسافة</th>
+              <th>نوع اللقطة</th><th>الاستخدام</th><th>الأهمية</th><th>الحالة</th><th class="no-print">أدوات</th></tr>
+          </thead>
+          <tbody>
+            <tr class="core">
+              <td class="c-idx">1</td>
+              <td contenteditable>أمامية مباشرة (Eye level)</td>
+              <td contenteditable>الكادر الرئيسي: العين على مستوى العدسة، ثلثان من الصدر للأعلى</td>
+              <td><select class="st" data-v="تلفون 1" onchange="setV(this)"><option selected>تلفون 1</option><option>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>1.2م — 1.5م من الوجه</td>
+              <td contenteditable>متوسطة (Medium)</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>شورت</option><option>لونج</option><option selected>الاثنان</option></select></td>
+              <td><select class="st" data-v="أساسي" onchange="setV(this)"><option selected>أساسي</option><option>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr class="core">
+              <td class="c-idx">2</td>
+              <td contenteditable>جانبية 45°</td>
+              <td contenteditable>من جهة الحديث قليلاً لإظهار ملامح الوجه وعمق المكان</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>1.3م — يمين الكادر</td>
+              <td contenteditable>متوسطة قريبة</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>شورت</option><option>لونج</option><option selected>الاثنان</option></select></td>
+              <td><select class="st" data-v="أساسي" onchange="setV(this)"><option selected>أساسي</option><option>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr class="core">
+              <td class="c-idx">3</td>
+              <td contenteditable>فوق الكتف (Over shoulder)</td>
+              <td contenteditable>لتصوير الضيف مع المستمع في الكادر — تُستخدم في البودكاست</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>خلف الكتف بمسافة ذراع</td>
+              <td contenteditable>كادر مزدوج (Two shot)</td>
+              <td><select class="st" data-v="لونج" onchange="setV(this)"><option>شورت</option><option selected>لونج</option><option>الاثنان</option></select></td>
+              <td><select class="st" data-v="أساسي" onchange="setV(this)"><option selected>أساسي</option><option>ثانوي</option></select></td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this)"><option>جاهز</option><option>تصوير</option><option selected>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">4</td>
+              <td contenteditable>جانبية كاملة (Profile)</td>
+              <td contenteditable>لتصوير التفكير والردود أو المشي داخل الاستوديو</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>1.5م — مستوى الصدر</td>
+              <td contenteditable>جانبية</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>شورت</option><option>لونج</option><option selected>الاثنان</option></select></td>
+              <td><select class="st" data-v="ثانوي" onchange="setV(this)"><option>أساسي</option><option selected>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr class="core">
+              <td class="c-idx">5</td>
+              <td contenteditable>قريبة جداً (Close-up)</td>
+              <td contenteditable>للحظات الانفعال والمعلومة المهمة — تزيد الانتباه في الشورت</td>
+              <td><select class="st" data-v="تلفون 1" onchange="setV(this)"><option selected>تلفون 1</option><option>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>80سم — مستوى العين</td>
+              <td contenteditable>كلوز أب</td>
+              <td><select class="st" data-v="شورت" onchange="setV(this)"><option selected>شورت</option><option>لونج</option><option>الاثنان</option></select></td>
+              <td><select class="st" data-v="أساسي" onchange="setV(this)"><option selected>أساسي</option><option>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">6</td>
+              <td contenteditable>واسعة (Wide)</td>
+              <td contenteditable>كادر عام للاستوديو والكواليس — تُستخدم كمقدمة أو فاصل</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>2.5م — ارتفاع 1.4م</td>
+              <td contenteditable>واسعة (Wide)</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>شورت</option><option>لونج</option><option selected>الاثنان</option></select></td>
+              <td><select class="st" data-v="ثانوي" onchange="setV(this)"><option>أساسي</option><option selected>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">7</td>
+              <td contenteditable>من أعلى (Top down)</td>
+              <td contenteditable>لتصوير الأدوات والهاتف والمخططات على الطاولة</td>
+              <td><select class="st" data-v="تلفون 1" onchange="setV(this)"><option selected>تلفون 1</option><option>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>ذراع ممدودة فوق الطاولة</td>
+              <td contenteditable>مسطّحة (Flat lay)</td>
+              <td><select class="st" data-v="شورت" onchange="setV(this)"><option selected>شورت</option><option>لونج</option><option>الاثنان</option></select></td>
+              <td><select class="st" data-v="ثانوي" onchange="setV(this)"><option>أساسي</option><option selected>ثانوي</option></select></td>
+              <td><select class="st" data-v="تصوير" onchange="setV(this)"><option>جاهز</option><option selected>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">8</td>
+              <td contenteditable>من الأسفل (Low angle)</td>
+              <td contenteditable>تعطي حضوراً وقوة — للجُمَل القوية والخطاف</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>مستوى الصدر أو أقل</td>
+              <td contenteditable>من الأسفل</td>
+              <td><select class="st" data-v="شورت" onchange="setV(this)"><option selected>شورت</option><option>لونج</option><option>الاثنان</option></select></td>
+              <td><select class="st" data-v="ثانوي" onchange="setV(this)"><option>أساسي</option><option selected>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr class="core">
+              <td class="c-idx">9</td>
+              <td contenteditable>رد فعل المستمع (Reaction)</td>
+              <td contenteditable>تصوير الشخص الآخر أثناء الحديث — ذهب المونتاج في اللونج</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>1.5م — على مستوى العين</td>
+              <td contenteditable>متوسطة</td>
+              <td><select class="st" data-v="لونج" onchange="setV(this)"><option>شورت</option><option selected>لونج</option><option>الاثنان</option></select></td>
+              <td><select class="st" data-v="أساسي" onchange="setV(this)"><option selected>أساسي</option><option>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">10</td>
+              <td contenteditable>تفاصيل اليدين (Hands)</td>
+              <td contenteditable>لحظات الشرح والإشارة — تُوضع كب-رول فوق الصوت</td>
+              <td><select class="st" data-v="تلفون 1" onchange="setV(this)"><option selected>تلفون 1</option><option>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>قريبة — 60–80سم</td>
+              <td contenteditable>تفصيلية (Detail)</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>شورت</option><option>لونج</option><option selected>الاثنان</option></select></td>
+              <td><select class="st" data-v="ثانوي" onchange="setV(this)"><option>أساسي</option><option selected>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">11</td>
+              <td contenteditable>مقدمة الحلقة (Intro)</td>
+              <td contenteditable>لقطة ثابتة للضيف مع لافتة الحلقة — تُستخدم في الجمبنيل</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>تلفون 1</option><option>تلفون 2</option><option selected>الاثنان</option></select></td>
+              <td contenteditable>1.5م — مستوى العين</td>
+              <td contenteditable>متوسطة</td>
+              <td><select class="st" data-v="لونج" onchange="setV(this)"><option>شورت</option><option selected>لونج</option><option>الاثنان</option></select></td>
+              <td><select class="st" data-v="أساسي" onchange="setV(this)"><option selected>أساسي</option><option>ثانوي</option></select></td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option selected>جاهز</option><option>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+            <tr>
+              <td class="c-idx">12</td>
+              <td contenteditable>ب-رول متحرك (B-roll)</td>
+              <td contenteditable>حركة بطيئة داخل المكان بدون كلام — تُغطّي القطع</td>
+              <td><select class="st" data-v="تلفون 2" onchange="setV(this)"><option>تلفون 1</option><option selected>تلفون 2</option><option>الاثنان</option></select></td>
+              <td contenteditable>يد — حركة بطيئة جداً</td>
+              <td contenteditable>متحركة</td>
+              <td><select class="st" data-v="الاثنان" onchange="setV(this)"><option>شورت</option><option>لونج</option><option selected>الاثنان</option></select></td>
+              <td><select class="st" data-v="ثانوي" onchange="setV(this)"><option>أساسي</option><option selected>ثانوي</option></select></td>
+              <td><select class="st" data-v="تصوير" onchange="setV(this)"><option>جاهز</option><option selected>تصوير</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <span class="pill gd">أساسي — لا يُصوَّر محتوى من دونه</span>
+        <span class="pill">ثانوي — إضافي لتقوية المونتاج</span>
+        <span class="pill yt">الكاميرا الأساسية: تلفون 1</span>
+        <span class="pill pu">الكاميرا الثانية: تلفون 2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>📋 قائمة تجهيز التصوير (قبل كل جلسة)</h3><div class="spacer"></div><span class="sub">تُحفظ تلقائياً</span></div>
+      <div class="card-b">
+        <ul class="chklist">
+          <li><input type="checkbox" checked><span contenteditable>تلفون 1 + تلفون 2 بشحن كامل (100%)</span></li>
+          <li><input type="checkbox" checked><span contenteditable>تثبيت تلفون 1 على الترايبود وضبط مستوى العين</span></li>
+          <li><input type="checkbox"><span contenteditable>تثبيت تلفون 2 على زاوية 45° / فوق الكتف</span></li>
+          <li><input type="checkbox"><span contenteditable>توصيل المايك الخارجي بتلفون 1 واختبار 10 ثواني</span></li>
+          <li><input type="checkbox"><span contenteditable>وضع الطيران + إيقاف الإشعارات في التلفونين</span></li>
+          <li><input type="checkbox"><span contenteditable>نفس معدل الإطارات والدقة في التلفونين (1080p / 30fps)</span></li>
+          <li><input type="checkbox"><span contenteditable>تصوير 5 ثواني اختبار ومراجعة الإضاءة والصوت</span></li>
+          <li><input type="checkbox"><span contenteditable>تصوير كادر احتياطي (Safe shot) لكل زاوية أساسية</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>⚙️ إعدادات التصوير الثابتة</h3></div>
+      <div class="card-b">
+        <div class="fields">
+          <div class="fld"><label>تلفون 1 (الأساسي)</label><input value="★ أساسي — الموديل: ......" oninput="saveNow(true)"></div>
+          <div class="fld"><label>تلفون 2 (الثاني)</label><input value="★ ثاني — الموديل: ......" oninput="saveNow(true)"></div>
+          <div class="fld"><label>الدقة ومعدل الإطارات</label><input value="1080p — 30fps" oninput="saveNow(true)"></div>
+          <div class="fld"><label>المقاس للشورت</label><input value="1080×1920 عمودي 9:16" oninput="saveNow(true)"></div>
+          <div class="fld"><label>المقاس للونج</label><input value="1920×1080 أفقي 16:9" oninput="saveNow(true)"></div>
+          <div class="fld"><label>المسؤول عن التصوير</label><input value="هشام وليد" oninput="saveNow(true)"></div>
+        </div>
+        <div class="note" style="margin-top:14px">
+          <b>قاعدة ذهبية:</b> صوّر كل مقطع أساسي من زاويتين (تلفون 1 أمامي + تلفون 2 جانبي) — هذا وحده يوفّر 70% من وقت المونتاج ويمنع إعادة التصوير.<br>
+          <b>ولا تخلط الإعدادات:</b> التلفونان بنفس الدقة ومعدل الإطارات لتسهيل القطع في المونتاج.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 12 : MONTAGE ============================ -->
+<section class="page" id="p12">
+  <div class="essbanner">⭐ <b>وحدة أساسية:</b> مواصفات المونتاج المعتمدة + مراحل التنفيذ لكل شورت وحلقة. كل بند قابل للتعديل.</div>
+
+  <div class="card">
+    <div class="card-h"><h3>🎚️ مواصفات المونتاج — الشورت vs اللونج</h3><div class="spacer"></div><span class="sub">المرجع الثابت لفريق المونتاج</span></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-montage-spec" data-edit="tbl-montage-spec" style="min-width:1150px">
+          <thead>
+            <tr><th>البند</th><th>الشورت (أساسي)</th><th>اللونج / البودكاست (أساسي)</th><th>الأداة</th><th>المسؤول</th><th>الحالة</th><th class="no-print"></th></tr>
+          </thead>
+          <tbody>
+            <tr class="core"><td contenteditable>المقاس والنسبة</td><td contenteditable>1080×1920 عمودي 9:16</td><td contenteditable>1920×1080 أفقي 16:9</td><td contenteditable>إعداد المشروع</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>المدة المستهدفة</td><td contenteditable>25–45 ثانية</td><td contenteditable>45–90 دقيقة</td><td contenteditable>—</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>معدل الإطارات</td><td contenteditable class="mono">30fps</td><td contenteditable class="mono">30fps</td><td contenteditable>إعداد التصدير</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الصيغة والكودك</td><td contenteditable class="mono">MP4 · H.264</td><td contenteditable class="mono">MP4 · H.264</td><td contenteditable>إعداد التصدير</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>جودة التصدير (بت ريت)</td><td contenteditable>10–16 Mbps</td><td contenteditable>20–30 Mbps</td><td contenteditable>إعداد التصدير</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>إيقاع القطع</td><td contenteditable>قطع كل 2–3 ثواني + انتقال سريع</td><td contenteditable>قطع هادئ كل 8–15 ثانية بين المحاور</td><td contenteditable>تايم لاين</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="مونتاج" onchange="setV(this)"><option>جاهز</option><option selected>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الصوت</td><td contenteditable>تنظيف + تسوية + خفض الموسيقى تحت الكلام</td><td contenteditable>تنظيف، إزالة الضوضاء، تسوية -14 LUFS</td><td contenteditable>معالجة صوت</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="مونتاج" onchange="setV(this)"><option>جاهز</option><option selected>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الموسيقى</td><td contenteditable>ترند مناسب + بدون حقوق</td><td contenteditable>مقدمة/فواصل ثابتة للهوية</td><td contenteditable>مكتبة موسيقى</td><td contenteditable>محمد سنان</td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option selected>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>تصحيح الألوان</td><td contenteditable>LUT واحد موحّد + تباين عالٍ</td><td contenteditable>LUT هادئ + ثبات الألوان بين الكاميرات</td><td contenteditable>Color / Filters</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option selected>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الترجمة والنصوص</td><td contenteditable>كابشن كبير ملوّن + كلمات مفتاحية بارزة</td><td contenteditable>نصوص للمحاور + اقتباسات على الشاشة</td><td contenteditable>Auto captions</td><td contenteditable>أياد الشربيني</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الموشن والانتقالات</td><td contenteditable>زووم سريع + أسهم + إيموجي</td><td contenteditable>لوغو بوصلة + فواصل بين المحاور</td><td contenteditable>Overlays</td><td contenteditable>هشام وليد</td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option selected>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الغلاف (Thumbnail)</td><td contenteditable>لقطة واضحة + 3 كلمات كبيرة</td><td contenteditable>وجه الضيف + عنوان الحلقة + رقمها</td><td contenteditable>تصميم</td><td contenteditable>محمد سنان</td>
+              <td><select class="st" data-v="مراجعة" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option selected>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>التسمية والأرشفة</td><td contenteditable class="mono">Bousla_S01_Shorts_01_v1.mp4</td><td contenteditable class="mono">Bousla_S01_EP02_v1.mp4</td><td contenteditable>مجلد الأرشيف</td><td contenteditable>محمد سنان</td>
+              <td><select class="st" data-v="جاهز" onchange="setV(this)"><option>جاهز</option><option>مونتاج</option><option>مراجعة</option><option>متوقف</option></select></td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3>🧩 مراحل المونتاج لكل ملف — ✔️ علّم المنجز</h3><div class="spacer"></div><span class="sub">8 مراحل × 8 ملفات</span>
+      <button class="tbtn no-print" onclick="addRow()">➕ ملف</button></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-montage-flow" data-edit="tbl-montage-flow" style="min-width:1180px">
+          <thead>
+            <tr><th>الملف</th><th>تجميع وفرز المواد</th><th>القطع الأولي (Rough)</th><th>ب-رول والزوايا</th><th>الصوت والموسيقى</th>
+              <th>تصحيح الألوان</th><th>الترجمة والنصوص</th><th>الغلاف</th><th>تصدير نهائي</th><th>ملاحظة</th></tr>
+          </thead>
+          <tbody>
+            <tr><td contenteditable>شورت 01</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td contenteditable>تم النشر</td></tr>
+            <tr><td contenteditable>شورت 02</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td contenteditable>قيد التصحيح اللوني</td></tr>
+            <tr><td contenteditable>شورت 03</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td contenteditable>يحتاج موسيقى هادئة</td></tr>
+            <tr><td contenteditable>شورت 04</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td contenteditable>الملفات ناقصة زاوية 45°</td></tr>
+            <tr><td contenteditable>حلقة 01</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td contenteditable>منشورة</td></tr>
+            <tr><td contenteditable>حلقة 02</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td contenteditable>بانتظار الترجمة</td></tr>
+            <tr><td contenteditable>حلقة 03</td>
+              <td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox" checked></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td contenteditable>مراجعة القصة</td></tr>
+            <tr><td contenteditable>حلقة 04</td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td>
+              <td class="c"><input type="checkbox"></td><td class="c"><input type="checkbox"></td><td contenteditable>لم يبدأ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>✅ قائمة تحقق المونتاج قبل التسليم</h3></div>
+      <div class="card-b">
+        <ul class="chklist">
+          <li><input type="checkbox" checked><span contenteditable>الصوت نظيف والكلام مسموع بوضوح</span></li>
+          <li><input type="checkbox" checked><span contenteditable>الموسيقى منخفضة أثناء الكلام</span></li>
+          <li><input type="checkbox"><span contenteditable>الألوان موحّدة بين تلفون 1 وتلفون 2</span></li>
+          <li><input type="checkbox"><span contenteditable>الترجمة مطابقة للكلام بدون أخطاء</span></li>
+          <li><input type="checkbox"><span contenteditable>أول 3 ثواني فيها خطاف قوي</span></li>
+          <li><input type="checkbox"><span contenteditable>اللقطة الأخيرة فيها نداء واضح</span></li>
+          <li><input type="checkbox"><span contenteditable>التصدير بالمقاس الصحيح (9:16 أو 16:9)</span></li>
+          <li><input type="checkbox"><span contenteditable>الملف مسمّى ومحفوظ في مجلد الأرشيف</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>🛠️ برنامج المونتاج وإعدادات العمل</h3></div>
+      <div class="card-b">
+        <div class="fields">
+          <div class="fld"><label>برنامج المونتاج الأساسي</label><input value="......" oninput="saveNow(true)"></div>
+          <div class="fld"><label>برنامج بديل (للسرعة)</label><input value="......" oninput="saveNow(true)"></div>
+          <div class="fld"><label>مسؤول المونتاج</label><input value="هشام وليد" oninput="saveNow(true)"></div>
+          <div class="fld"><label>مراجعة المحتوى</label><input value="أياد الشربيني" oninput="saveNow(true)"></div>
+          <div class="fld"><label>مدة مونتاج الشورت</label><input value="45 دقيقة" oninput="saveNow(true)"></div>
+          <div class="fld"><label>مدة مونتاج الحلقة</label><input value="6 ساعات" oninput="saveNow(true)"></div>
+        </div>
+        <div class="note" style="margin-top:14px">
+          <b>قاعدة الأرشفة:</b> ملف المشروع (Project) + الملف النهائي + الغلاف + الترجمة — كل نسخة في مجلد واحد بتاريخ اليوم.<br>
+          <b>قاعدة النسخ:</b> لا تحذف أي لقطة قبل النشر بـ 48 ساعة على الأقل.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 6 : CALENDAR ============================ -->
+<section class="page" id="p6">
+  <div class="card">
+    <div class="card-h"><h3>🗓️ التقويم الأسبوعي للنشر</h3><div class="spacer"></div><span class="sub">عدّل النصوص داخل الأيام مباشرة</span></div>
+    <div class="card-b">
+      <div class="cal">
+        <div class="dh">السبت</div><div class="dh">الأحد</div><div class="dh">الاثنين</div><div class="dh">الثلاثاء</div>
+        <div class="dh">الأربعاء</div><div class="dh">الخميس</div><div class="dh">الجمعة</div>
+
+        <div class="day"><div class="dnum">10 <span>أكتوبر</span></div>
+          <span class="ev tt" contenteditable>شورت: ليش بوصلة؟</span><span class="ev" contenteditable>كتابة محاور حلقة 04</span></div>
+        <div class="day"><div class="dnum">11 <span>أكتوبر</span></div>
+          <span class="ev ok" contenteditable>🚀 نشر حلقة 01 (لونج)</span><span class="ev tt" contenteditable>شورت ترويجي للحلقة</span></div>
+        <div class="day"><div class="dnum">12 <span>أكتوبر</span></div>
+          <span class="ev gd" contenteditable>🎥 تسجيل حلقة 02</span><span class="ev" contenteditable>مراجعة سكريبت شورت</span></div>
+        <div class="day"><div class="dnum">13 <span>أكتوبر</span></div>
+          <span class="ev" contenteditable>مونتاج حلقة 02</span><span class="ev tt" contenteditable>شورت: قبل / بعد</span></div>
+        <div class="day"><div class="dnum">14 <span>أكتوبر</span></div>
+          <span class="ev tt" contenteditable>شورت: 3 أخطاء</span><span class="ev gd" contenteditable>غلاف حلقة 02</span></div>
+        <div class="day"><div class="dnum">15 <span>أكتوبر</span></div>
+          <span class="ev" contenteditable>مراجعة واعتماد</span><span class="ev" contenteditable>تجهيز أسئلة الضيف</span></div>
+        <div class="day"><div class="dnum">16 <span>أكتوبر</span></div>
+          <span class="ev ok" contenteditable>راحة / تحضير الأسبوع</span></div>
+
+        <div class="day"><div class="dnum">17 <span>أكتوبر</span></div>
+          <span class="ev tt" contenteditable>شورت: نصيحة 30 ثانية</span></div>
+        <div class="day"><div class="dnum">18 <span>أكتوبر</span></div>
+          <span class="ev ok" contenteditable>🚀 نشر حلقة 02 (لونج)</span><span class="ev tt" contenteditable>شورت: قصة الحلقة</span></div>
+        <div class="day"><div class="dnum">19 <span>أكتوبر</span></div>
+          <span class="ev gd" contenteditable>🎥 تسجيل حلقة 03</span></div>
+        <div class="day"><div class="dnum">20 <span>أكتوبر</span></div>
+          <span class="ev" contenteditable>مونتاج صوتي</span><span class="ev tt" contenteditable>شورت: رأي الشارع</span></div>
+        <div class="day"><div class="dnum">21 <span>أكتوبر</span></div>
+          <span class="ev" contenteditable>مونتاج فيديو</span></div>
+        <div class="day"><div class="dnum">22 <span>أكتوبر</span></div>
+          <span class="ev gd" contenteditable>مراجعة نهائية</span><span class="ev tt" contenteditable>شورت: أسطورة أم حقيقة</span></div>
+        <div class="day"><div class="dnum">23 <span>أكتوبر</span></div>
+          <span class="ev ok" contenteditable>راحة</span></div>
+      </div>
+      <div class="legend">
+        <span class="pill yt">تصوير / تسجيل</span><span class="pill tt">شورت</span><span class="pill gd">مراجعة / تجهيز</span><span class="pill ok">نشر</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>🎯 أهداف الأسبوع</h3></div>
+      <div class="card-b">
+        <div class="fields">
+          <div class="fld"><label>عدد الشورتات المستهدفة</label><input value="4" oninput="saveNow(true)"></div>
+          <div class="fld"><label>عدد الحلقات المستهدفة</label><input value="1" oninput="saveNow(true)"></div>
+          <div class="fld"><label>أيام التسجيل</label><input value="الاثنين والثلاثاء" oninput="saveNow(true)"></div>
+          <div class="fld"><label>أيام النشر</label><input value="الأحد والأربعاء" oninput="saveNow(true)"></div>
+        </div>
+        <div class="note" style="margin-top:14px">💡 القاعدة: حلقة لونج واحدة أسبوعياً + 3 إلى 4 شورتات مقتطعة منها ومن كواليس التصوير.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>🔔 مهام متكررة</h3></div>
+      <div class="card-b">
+        <ul class="chklist">
+          <li><input type="checkbox"><span contenteditable>مراجعة أرقام الأسبوع الماضي (سنان)</span></li>
+          <li><input type="checkbox"><span contenteditable>تجهيز قائمة أفكار جديدة (أياد)</span></li>
+          <li><input type="checkbox"><span contenteditable>فحص الأجهزة والذاكرة قبل التصوير (هشام وليد)</span></li>
+          <li><input type="checkbox"><span contenteditable>متابعة رد الضيوف (هشام وليد)</span></li>
+          <li><input type="checkbox"><span contenteditable>أرشفة الملفات وتسليم النسخ النهائية</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 7 : IDEAS BANK ============================ -->
+<section class="page" id="p7">
+  <div class="card">
+    <div class="card-h"><h3>🧠 بنك الأفكار</h3><div class="spacer"></div><span class="sub">لا تُحذف الفكرة، تُؤجَّل فقط</span>
+      <button class="tbtn no-print" onclick="addRow()">➕ فكرة</button></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-ideas" data-edit="tbl-ideas">
+          <thead><tr><th>#</th><th>الفكرة</th><th>النوع</th><th>المصدر / السبب</th><th>الجاهزية</th><th>اقترحها</th><th class="no-print">أدوات</th></tr></thead>
+          <tbody>
+            <tr><td class="c-idx">1</td><td contenteditable>أسرار بداية أي مشروع</td><td><select class="st" data-v="لونج" onchange="setV(this)"><option selected>لونج</option><option>شورت</option><option>ثنائي</option></select></td>
+              <td contenteditable>سؤال متكرر من المتابعين</td><td><select class="st" data-v="جاهز" onchange="setV(this)"><option>فكرة</option><option>كتابة</option><option selected>جاهز</option></select></td>
+              <td contenteditable>هشام وليد</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">2</td><td contenteditable>كيف نختار ضيوف بوصلة</td><td><select class="st" data-v="شورت" onchange="setV(this)"><option>لونج</option><option selected>شورت</option><option>ثنائي</option></select></td>
+              <td contenteditable>سؤال إداري داخلي</td><td><select class="st" data-v="كتابة" onchange="setV(this)"><option>فكرة</option><option selected>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>أياد الشربيني</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">3</td><td contenteditable>أدوات المونتاج التي نستخدمها</td><td><select class="st" data-v="شورت" onchange="setV(this)"><option>لونج</option><option selected>شورت</option><option>ثنائي</option></select></td>
+              <td contenteditable>طلب من الجمهور</td><td><select class="st" data-v="فكرة" onchange="setV(this)"><option selected>فكرة</option><option>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>هشام وليد</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">4</td><td contenteditable>أخطاء الضيوف في البودكاست</td><td><select class="st" data-v="ثنائي" onchange="setV(this)"><option>لونج</option><option>شورت</option><option selected>ثنائي</option></select></td>
+              <td contenteditable>خبرة داخلية</td><td><select class="st" data-v="فكرة" onchange="setV(this)"><option selected>فكرة</option><option>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>محمد سنان</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">5</td><td contenteditable>يوم كامل في حياة فريق بوصلة</td><td><select class="st" data-v="ثنائي" onchange="setV(this)"><option>لونج</option><option>شورت</option><option selected>ثنائي</option></select></td>
+              <td contenteditable>فكرة تسويقية</td><td><select class="st" data-v="كتابة" onchange="setV(this)"><option>فكرة</option><option selected>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>محمد سنان</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">6</td><td contenteditable>مقارنة: يوتيوب لونج vs شورت</td><td><select class="st" data-v="ثنائي" onchange="setV(this)"><option>لونج</option><option>شورت</option><option selected>ثنائي</option></select></td>
+              <td contenteditable>نقاش داخلي</td><td><select class="st" data-v="فكرة" onchange="setV(this)"><option selected>فكرة</option><option>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>هشام وليد</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">7</td><td contenteditable>أسئلة الجمهور السريعة — سلسلة أسبوعية</td><td><select class="st" data-v="شورت" onchange="setV(this)"><option>لونج</option><option selected>شورت</option><option>ثنائي</option></select></td>
+              <td contenteditable>تعليقات المتابعين</td><td><select class="st" data-v="جاهز" onchange="setV(this)"><option>فكرة</option><option>كتابة</option><option selected>جاهز</option></select></td>
+              <td contenteditable>أياد الشربيني</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">8</td><td contenteditable>حلقة خاصة: 100 حلقة</td><td><select class="st" data-v="لونج" onchange="setV(this)"><option selected>لونج</option><option>شورت</option><option>ثنائي</option></select></td>
+              <td contenteditable>مناسبة قادمة</td><td><select class="st" data-v="فكرة" onchange="setV(this)"><option selected>فكرة</option><option>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>هشام وليد</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">9</td><td contenteditable>تجارب فاشلة وكيف تجاوزناها</td><td><select class="st" data-v="لونج" onchange="setV(this)"><option selected>لونج</option><option>شورت</option><option>ثنائي</option></select></td>
+              <td contenteditable>طلب الجمهور</td><td><select class="st" data-v="فكرة" onchange="setV(this)"><option selected>فكرة</option><option>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>هشام وليد</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td class="c-idx">10</td><td contenteditable>الترندات في مجالك هذا الشهر</td><td><select class="st" data-v="ثنائي" onchange="setV(this)"><option>لونج</option><option>شورت</option><option selected>ثنائي</option></select></td>
+              <td contenteditable>متابعة السوق</td><td><select class="st" data-v="فكرة" onchange="setV(this)"><option selected>فكرة</option><option>كتابة</option><option>جاهز</option></select></td>
+              <td contenteditable>محمد سنان</td><td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>📝 هيكل سكريبت الشورت</h3><div class="spacer"></div><span class="sub">انسخه وعدّله</span></div>
+      <div class="card-b note" contenteditable data-edit="script-short">
+        <b>0–3 ثواني | الخطاف:</b> سؤال أو رقم أو جملة صادمة.<br>
+        <b>3–10 ثواني | التحديد:</b> «في هذا الفيديو ستتعرف على...».<br>
+        <b>10–30 ثانية | المحتوى:</b> 3 نقاط سريعة، نقطة واحدة كل 5 ثواني.<br>
+        <b>30–40 ثانية | الدليل:</b> مثال واقعي أو لقطة من الحلقة الطويلة.<br>
+        <b>آخر 5 ثواني | النداء:</b> «الحلقة كاملة على يوتيوب — بوصلة».
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>🎙️ هيكل حلقة اللونج</h3></div>
+      <div class="card-b note" contenteditable data-edit="script-long">
+        <b>المقدمة (0–2 د):</b> ترحيب + تعريف الضيف + وعد الحلقة.<br>
+        <b>المحور الأول (2–20 د):</b> البداية والقصة الشخصية.<br>
+        <b>المحور الثاني (20–45 د):</b> التحديات والأخطاء والدروس.<br>
+        <b>المحور الثالث (45–70 د):</b> نصائح عملية قابلة للتطبيق.<br>
+        <b>الخاتمة (70–75 د):</b> أسئلة سريعة + توجيه المتابعين + تشويق للحلقة القادمة.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 8 : TEAM ============================ -->
+<section class="page" id="p8">
+  <div class="card">
+    <div class="card-h"><h3>👥 المدراء المسؤولون</h3><div class="spacer"></div><span class="sub">عدّل الاسم والدور مباشرة</span></div>
+    <div class="card-b team">
+       <div class="mgr c1">
+         <div class="head"><div class="avatar" contenteditable>ه.و</div>
+           <div><div class="nm" contenteditable>هشام وليد</div><div class="rl" contenteditable>مدير الإنتاج والتصوير والمونتاج</div></div></div>
+         <div class="stats"><b><span data-count="هشام وليد">0</span><i>مهام</i></b><b><span data-pub="هشام وليد">0</span><i>منشور</i></b></div>
+         <div class="tags"><span class="pill gd">اعتماد السكريبت</span><span class="pill yt">زوايا التصوير — تلفونين</span><span class="pill pu">المونتاج النهائي</span><span class="pill">إضاءة وصوت</span></div>
+         <div class="line">يوزّع المهام، ويضبط التصوير بالتلفونين (أساسي + ثاني)، ويتابع الجودة البصرية والصوتية والمونتاج.</div>
+       </div>
+      <div class="mgr c3">
+        <div class="head"><div class="avatar c3" contenteditable>أ</div>
+          <div><div class="nm" contenteditable>أياد الشربيني</div><div class="rl" contenteditable>مدير المحتوى والكتابة</div></div></div>
+        <div class="stats"><b><span data-count="أياد">0</span><i>مهام</i></b><b><span data-pub="أياد">0</span><i>منشور</i></b></div>
+        <div class="tags"><span class="pill pu">كتابة السكريبت</span><span class="pill gd">بنك الأفكار</span><span class="pill">المحاور</span></div>
+        <div class="line">يحوّل الأفكار إلى سكريبتات واضحة ومدروسة.</div>
+      </div>
+      <div class="mgr c4">
+        <div class="head"><div class="avatar c4" contenteditable>م</div>
+          <div><div class="nm" contenteditable>محمد سنان</div><div class="rl" contenteditable>مدير النشر والتوزيع</div></div></div>
+        <div class="stats"><b><span data-count="سنان">0</span><i>مهام</i></b><b><span data-pub="سنان">0</span><i>منشور</i></b></div>
+        <div class="tags"><span class="pill tt">تيك توك</span><span class="pill yt">يوتيوب</span><span class="pill ok">تحليل الأرقام</span></div>
+        <div class="line">ينشر في التوقيت الأمثل ويتابع التفاعل.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>🧾 توزيع المسؤوليات</h3><div class="spacer"></div><button class="tbtn no-print" onclick="addRow()">➕</button></div>
+      <div class="card-b">
+        <div class="tbl-wrap">
+          <table class="tbl" id="tbl-duties" data-edit="tbl-duties" style="min-width:620px">
+            <thead><tr><th>المهمة</th><th>المسؤول</th><th>المساند</th><th>التكرار</th><th class="no-print"></th></tr></thead>
+            <tbody>
+              <tr><td contenteditable>اعتماد الخطة الأسبوعية</td><td contenteditable>هشام وليد</td><td contenteditable>الفريق</td><td contenteditable>أسبوعي</td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>كتابة سكريبتات الشورت</td><td contenteditable>أياد الشربيني</td><td contenteditable>هشام وليد</td><td contenteditable>يومي</td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>التصوير وإدارة الاستوديو</td><td contenteditable>هشام وليد</td><td contenteditable>سنان</td><td contenteditable>حسب الجدول</td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>المونتاج النهائي</td><td contenteditable>هشام وليد</td><td contenteditable>—</td><td contenteditable>مستمر</td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>النشر والتفاعل مع التعليقات</td><td contenteditable>محمد سنان</td><td contenteditable>هشام وليد</td><td contenteditable>يومي</td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+              <tr><td contenteditable>تقرير الأرقام الأسبوعي</td><td contenteditable>محمد سنان</td><td contenteditable>الفريق</td><td contenteditable>أسبوعي</td>
+                <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>🔗 قنوات التواصل والملفات</h3></div>
+      <div class="card-b">
+        <div class="fields">
+          <div class="fld"><label>مجموعة الواتساب / تيليجرام</label><input placeholder="الرابط" oninput="saveNow(true)"></div>
+          <div class="fld"><label>مجلد الملفات السحابي</label><input placeholder="رابط درايف / دروبوكس" oninput="saveNow(true)"></div>
+          <div class="fld"><label>قناة يوتيوب</label><input placeholder="رابط القناة" oninput="saveNow(true)"></div>
+          <div class="fld"><label>حساب تيك توك</label><input placeholder="الرابط أو المعرّف" oninput="saveNow(true)"></div>
+        </div>
+        <div class="note" style="margin-top:14px">🔒 هذا الملف محلي بالكامل — البيانات محفوظة في متصفحك فقط، والتصدير يعطيك نسخة JSON تستطيع استيرادها لاحقاً.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 9 : REPORTS ============================ -->
+<section class="page" id="p9">
+  <div class="kpis">
+    <div class="kpi k1"><div class="lab">شورتات منشورة</div><div class="val" id="rShortPub">0</div><div class="foot">من إجمالي شورتات الخطة</div></div>
+    <div class="kpi k2"><div class="lab">حلقات منشورة</div><div class="val" id="rLongPub">0</div><div class="foot">من إجمالي الحلقات</div></div>
+    <div class="kpi k4"><div class="lab">متوسط الإنجاز</div><div class="val" id="rAvg">0%</div><div class="foot">لكل المحتوى</div></div>
+    <div class="kpi k3"><div class="lab">نسبة الالتزام</div><div class="val" id="rCommit">0%</div><div class="foot">منشور ÷ الإجمالي</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>📊 نصيب كل مدير من المهام</h3><div class="spacer"></div><span class="sub">محسوب من الجداول</span></div>
+      <div class="card-b bars" id="mgrBars">
+         <div class="bar"><span>هشام وليد</span><div class="t"><div class="f" data-f="m-هشام وليد" style="width:0%"></div></div><div class="v" data-p="m-هشام وليد">0</div></div>
+        <div class="bar"><span>أياد الشربيني</span><div class="t"><div class="f p" data-f="m-أياد" style="width:0%"></div></div><div class="v" data-p="m-أياد">0</div></div>
+        <div class="bar"><span>محمد سنان</span><div class="t"><div class="f ok" data-f="m-سنان" style="width:0%"></div></div><div class="v" data-p="m-سنان">0</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>📱 توزيع المحتوى على المنصات</h3><div class="spacer"></div><span class="sub">من عمود المنصة</span></div>
+      <div class="card-b bars" id="platBars">
+        <div class="bar"><span>تيك توك</span><div class="t"><div class="f p" data-f="p-تيك" style="width:0%"></div></div><div class="v" data-p="p-تيك">0</div></div>
+        <div class="bar"><span>ريلز</span><div class="t"><div class="f g" data-f="p-ريلز" style="width:0%"></div></div><div class="v" data-p="p-ريلز">0</div></div>
+        <div class="bar"><span>شورتس</span><div class="t"><div class="f" data-f="p-شورتس" style="width:0%"></div></div><div class="v" data-p="p-شورتس">0</div></div>
+        <div class="bar"><span>كل المنصات</span><div class="t"><div class="f ok" data-f="p-كل" style="width:0%"></div></div><div class="v" data-p="p-كل">0</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3>📝 تقرير أسبوعي قابل للتعبئة</h3><div class="spacer"></div><span class="sub">اكتب الأرقام يدوياً</span>
+      <button class="tbtn no-print" onclick="addRow()">➕ أسبوع</button></div>
+    <div class="card-b">
+      <div class="tbl-wrap">
+        <table class="tbl" id="tbl-report" data-edit="tbl-report" style="min-width:900px">
+          <thead><tr><th>الأسبوع</th><th>مشاهدات الشورت</th><th>مشاهدات اللونج</th><th>متابعون جدد</th><th>أفضل محتوى</th><th>ملاحظة / قرار</th><th class="no-print"></th></tr></thead>
+          <tbody>
+            <tr><td contenteditable>الأسبوع 1</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الأسبوع 2</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الأسبوع 3</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+            <tr><td contenteditable>الأسبوع 4</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td><td contenteditable>—</td>
+              <td class="no-print"><div class="rowtools"><button class="rowbtn" onclick="delRow(this)">🗑️</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3>🎯 مؤشرات نتابعها كل أسبوع</h3></div>
+    <div class="card-b grid3">
+      <div class="note"><b>نسبة إكمال المشاهدة</b><br>للشورت: الهدف أعلى من 70%. أقل من ذلك يعني أن الخطاف أو الطول يحتاج تعديل.</div>
+      <div class="note"><b>معدل التحويل للونج</b><br>كم متابعاً انتقل من الشورت إلى الحلقة الكاملة؟ قِسه بالرابط في الوصف.</div>
+      <div class="note"><b>زمن الإنتاج</b><br>من الفكرة إلى النشر: الهدف أسبوع واحد للشورت، و10 أيام للحلقة.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 10 : SETTINGS ============================ -->
+<section class="page" id="p10">
+  <div class="card">
+    <div class="card-h"><h3>⚙️ إعدادات المشروع</h3><div class="spacer"></div><span class="sub">تُحفظ تلقائياً</span></div>
+    <div class="card-b">
+      <div class="fields">
+        <div class="fld"><label>اسم المشروع</label><input value="بودكاست بوصلة" oninput="saveNow(true)"></div>
+        <div class="fld"><label>الموسم</label><input value="الموسم الأول" oninput="saveNow(true)"></div>
+        <div class="fld"><label>تاريخ البداية</label><input value="2026-10-01" oninput="saveNow(true)"></div>
+        <div class="fld"><label>تاريخ النهاية</label><input value="2026-12-31" oninput="saveNow(true)"></div>
+        <div class="fld"><label>عدد الشورتات المستهدف</label><input value="40" oninput="saveNow(true)"></div>
+        <div class="fld"><label>عدد الحلقات المستهدف</label><input value="10" oninput="saveNow(true)"></div>
+        <div class="fld"><label>المديرون</label><input value="هشام وليد، أياد الشربيني، محمد سنان" oninput="saveNow(true)"></div>
+        <div class="fld"><label>المنصات</label><input value="يوتيوب، تيك توك، ريلز، شورتس" oninput="saveNow(true)"></div>
+      </div>
+      <div class="fld" style="margin-top:14px"><label>ملاحظات عامة على المشروع</label>
+        <textarea rows="4" oninput="saveNow(true)">خط الإنتاج: فكرة ← كتابة ← تصوير ← مونتاج ← مراجعة ← نشر. الاعتماد النهائي للمحتوى: أياد الشربيني، وللجدولة: محمد سنان.</textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-h"><h3>💾 النسخ الاحتياطي</h3></div>
+      <div class="card-b">
+        <p style="margin:0 0 12px;font-size:13.5px;font-weight:700;color:#5f6f8c">
+          نوع الحفظ: <b id="saveMode">تلقائي داخل المتصفح (localStorage)</b><br>
+          آخر حفظ: <b id="lastSave">—</b>
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="tbtn primary" onclick="exportJSON()">⬇️ تنزيل نسخة JSON</button>
+          <button class="tbtn" onclick="document.getElementById('imp').click()">⬆️ استيراد نسخة</button>
+          <button class="tbtn" onclick="window.print()">🖨️ طباعة / PDF</button>
+          <button class="tbtn" onclick="exportHTML()">📄 تنزيل نسخة HTML</button>
+          <button class="tbtn dark" onclick="resetAll()">♻️ إعادة ضبط</button>
+        </div>
+        <input type="file" id="imp" accept=".json" style="display:none" onchange="importJSON(this)">
+        <div class="hint">💡 الاحتفاظ بنسخة JSON أسبوعياً يمنع ضياع أي تعديل، ويمكن استيرادها على أي جهاز.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>✅ جاهزية النظام</h3></div>
+      <div class="card-b">
+        <ul class="chklist">
+          <li><input type="checkbox" checked><span>13 صفحة كاملة (شورت + لونج + تصوير + مونتاج + قوالب سكريبتات)</span></li>
+          <li><input type="checkbox" checked><span>10 صفوف شورت جاهزة للتعديل</span></li>
+          <li><input type="checkbox" checked><span>10 حلقات لونج + خطوات إنتاج</span></li>
+          <li><input type="checkbox" checked><span>وحدة زوايا التصوير — إعداد تلفونين (أساسي + ثاني)</span></li>
+          <li><input type="checkbox" checked><span>وحدة المونتاج — مواصفات ومراحل تنفيذ</span></li>
+          <li><input type="checkbox" checked><span>حفظ تلقائي لكل الخلايا والملاحظات</span></li>
+          <li><input type="checkbox" checked><span>تصدير / استيراد نسخة احتياطية</span></li>
+          <li><input type="checkbox" checked><span>طباعة أو تحويل إلى PDF</span></li>
+        </ul>
+        <div class="note" style="margin-top:14px">🖨️ عند الطباعة تُطبع كل الصفحات العشر متتالية (بدون القائمة الجانبية) — مناسبة للتسليم أو للاجتماع الأسبوعي.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3>⌨️ اختصارات وتلميحات</h3></div>
+    <div class="card-b grid3">
+      <div class="note"><b>Ctrl + S</b> → حفظ فوري + إشعار.</div>
+      <div class="note"><b>Ctrl + P</b> → طباعة أو حفظ PDF.</div>
+      <div class="note"><b>خانة البحث</b> → تصفية صفوف الصفحة الحالية فورياً.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ PAGE 13 : SCRIPT TEMPLATES (embedded) ============================ -->
+<section class="page" id="p13">
+  <div class="essbanner">🧩 <b>قوالب السكريبتات:</b> ملف «بوصلة — قوالب سكريبتات» مدمج بالكامل داخل هذا الملف، ويظهر أدناه كما هو. تقدر تفتحه في نافذة مستقلة أو تنزّله.</div>
+
+  <div class="card">
+    <div class="card-h">
+      <h3>🧩 بوصلة — قوالب السكريبتات</h3>
+      <div class="spacer"></div>
+      <span class="sub">سكريبت الحلقة الطويلة + اقتطاع الشورت</span>
+      <button class="tbtn no-print" onclick="openTemplates()">↗️ فتح مستقل</button>
+      <button class="tbtn primary no-print" onclick="downloadTemplates()">⬇️ تنزيل الملف</button>
+      <button class="tbtn no-print" onclick="fitFrame()">↕️ ضبط الطول</button>
+    </div>
+    <div class="card-b">
+      <iframe id="scriptsFrame" title="بوصلة — قوالب السكريبتات" loading="lazy"
+        style="width:100%;height:2400px;border:1px solid var(--line);border-radius:14px;background:#fff"></iframe>
+      <noscript>
+        <p class="note">لفتح ملف القوالب مباشرة: <a href="bousla-script-templates.html">bousla-script-templates.html</a></p>
+      </noscript>
+      <div class="hint">💡 الملف مدمج داخل هذه الصفحة (بدون أي اتصال بالإنترنت) — ولو التصميم ظهر مختلطاً اضغط «ضبط الطول».</div>
+    </div>
+  </div>
+</section>
+
+  </div><!-- /wrap -->
+</div><!-- /main -->
+</div><!-- /app -->
+<div class="toast" id="toast">تم الحفظ</div>
+
+<script>
+/* ==================== STORAGE ==================== */
+const LS_KEY = 'bousla_content_tracker_v2';
+const TITLES = {
+  p1:['لوحة التحكم','نظرة شاملة على إنتاج الشورت واللونج — بودكاست بوصلة'],
+  p2:['خطة الشورت','10 أفكار شورت فيديو مع المسؤول والحالة ونسبة الإنجاز'],
+  p3:['متابعة الشورت','خط إنتاج الشورت: كتابة ← تصوير ← مونتاج ← نشر'],
+  p4:['بودكاست بوصلة','جدول الحلقات الطويلة والضيوف ومواعيد التسجيل والنشر'],
+   p5:['متابعة اللونج','خطوات تنفيذ كل حلقة من تأكيد الضيف حتى النشر'],
+   p11:['زوايا التصوير — تلفونين','الإعداد الأساسي: تلفون 1 (أساسي) + تلفون 2 (ثاني) وزوايا التصوير'],
+   p12:['المونتاج','مواصفات المونتاج الأساسية للشورت واللونج + مراحل التنفيذ'],
+   p6:['التقويم الأسبوعي','توزيع التصوير والنشر على أيام الأسبوع'],
+   p7:['بنك الأفكار','أفكار الشورت واللونج + هياكل السكريبت الجاهزة'],
+   p8:['الفريق والمدراء','هشام وليد · أياد الشربيني · محمد سنان'],
+   p9:['التقارير','أرقام ومؤشرات الأداء الأسبوعية'],
+   p10:['الإعدادات والحفظ','إعدادات المشروع والنسخ الاحتياطي'],
+   p13:['قوالب السكريبتات','قوالب سكريبت الحلقة الطويلة واقتطاع الشورت — ملف بوصلة الكامل']
+};
+
+/* ==================== NAVIGATION ==================== */
+document.getElementById('nav').addEventListener('click', e => {
+  const b = e.target.closest('button[data-go]');
+  if (b) go(b.dataset.go);
+});
+function go(id){
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === id));
+  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('active', b.dataset.go === id));
+  document.getElementById('pageTitle').textContent = TITLES[id][0];
+  document.getElementById('pageSub').textContent = TITLES[id][1];
+  document.getElementById('q').value = '';
+  filterRows('');
+  recalc(); if (id === 'p13') setTimeout(fitFrame, 150); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ==================== STATUS + PROGRESS ==================== */
+function setV(sel){ sel.dataset.v = sel.value; saveNow(true); recalc(); }
+function setProg(el){
+  const ps = el.closest('[data-prog]');
+  let v = parseInt((el.textContent || '').replace(/[^0-9]/g,''),10);
+  if (isNaN(v)) v = 0; v = Math.max(0, Math.min(100, v));
+  ps.dataset.prog = v;
+  const f = ps.querySelector('.fill'); if (f) f.style.width = v + '%';
+  saveNow(true); recalc();
+}
+function syncProgress(){
+  document.querySelectorAll('[data-prog]').forEach(ps => {
+    const n = parseInt(ps.dataset.prog || '0', 10) || 0;
+    const f = ps.querySelector('.fill'); if (f) f.style.width = Math.max(0, Math.min(100, n)) + '%';
+  });
+}
+
+/* ==================== ROWS ==================== */
+function activeTable(){
+  const pg = document.querySelector('.page.active');
+  return pg ? pg.querySelector('table.tbl') : document.querySelector('table.tbl');
+}
+function addRow(){
+  const t = activeTable();
+  if (!t || !t.tBodies[0]) { toast('لا يوجد جدول في هذه الصفحة'); return; }
+  const body = t.tBodies[0];
+  const src = body.rows[body.rows.length - 1];
+  const row = src ? src.cloneNode(true) : document.createElement('tr');
+  row.querySelectorAll('[contenteditable]').forEach(td => td.textContent = td.classList.contains('c-idx') ? '' : '—');
+  row.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+  row.querySelectorAll('select.st').forEach(s => {
+    s.selectedIndex = 0; s.dataset.v = s.value;
+  });
+  const ps = row.querySelector('[data-prog]');
+  if (ps){ ps.dataset.prog = '0'; const f = ps.querySelector('.fill'); if (f) f.style.width = '0%';
+           const p = ps.querySelector('.pct'); if (p) p.textContent = '0%'; }
+  body.appendChild(row);
+  reindex(t); saveNow(); recalc(); toast('تمت إضافة صف جديد');
+}
+function delRow(btn){
+  const row = btn.closest('tr');
+  const t = btn.closest('table');
+  if (!row || !t) return;
+  if (!confirm('حذف هذا الصف نهائياً؟')) return;
+  row.remove(); reindex(t); saveNow(); recalc(); toast('تم حذف الصف');
+}
+function reindex(t){
+  t.querySelectorAll('tbody tr').forEach((r, i) => {
+    const c = r.querySelector('.c-idx');
+    if (c) c.textContent = String(i + 1);
+  });
+}
+
+/* ==================== RECALC ==================== */
+const STAGE = {
+  'فكرة':'idea', 'كتابة':'idea', 'تصوير':'shoot', 'مونتاج':'edit',
+  'مراجعة':'rev', 'جاهز':'done', 'منشور':'done', 'متوقف':'idea'
+};
+function rowsOf(id){
+  const t = document.getElementById(id);
+  return t ? [...t.querySelectorAll('tbody tr')] : [];
+}
+function statusOf(row){
+  const s = row.querySelector('select.st');
+  if (!s) return '';
+  const opts = [...s.options].map(o => o.textContent);
+  const match = opts.find(o => ['فكرة','كتابة','تصوير','مونتاج','مراجعة','جاهز','منشور','متوقف'].includes(o));
+  return s.value || match || '';
+}
+function progOf(row){
+  const ps = row.querySelector('[data-prog]');
+  return ps ? (parseInt(ps.dataset.prog || '0', 10) || 0) : 0;
+}
+function recalc(){
+  const shorts = rowsOf('tbl-shorts'), longs = rowsOf('tbl-long');
+  const all = [...shorts, ...longs];
+  const counts = {idea:0, shoot:0, edit:0, rev:0, done:0};
+  let ready = 0, done = 0, stop = 0, progSum = 0;
+
+  all.forEach(row => {
+    const st = statusOf(row);
+    const g = STAGE[st] || 'idea';
+    counts[g]++;
+    if (st === 'جاهز') ready++;
+    if (st === 'منشور') done++;
+    if (st === 'متوقف') stop++;
+    progSum += progOf(row);
+  });
+  const running = counts.shoot + counts.edit + counts.rev;
+  const total = all.length || 1;
+
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('kShort', shorts.length);
+  set('kLong', longs.length);
+  set('kProg', running);
+  set('kReady', ready);
+  set('kDone', done);
+  set('kStop', stop);
+
+  const maxC = Math.max(1, ...Object.values(counts));
+  Object.keys(counts).forEach(k => {
+    const f = document.querySelector('[data-f="' + k + '"]');
+    const p = document.querySelector('[data-p="' + k + '"]');
+    if (f) f.style.width = (counts[k] / maxC * 100) + '%';
+    if (p) p.textContent = counts[k];
+  });
+
+  const avgPct = Math.round(progSum / total);
+  set('rShortPub', shorts.filter(r => statusOf(r) === 'منشور').length);
+  set('rLongPub', longs.filter(r => statusOf(r) === 'منشور').length);
+  set('rAvg', avgPct + '%');
+  set('rCommit', Math.round(done / total * 100) + '%');
+
+  managerStats(all);
+  platformStats(shorts);
+}
+
+/* ==================== MANAGERS ==================== */
+const MGRS = [
+  /* هشام وليد شخص واحد — يشمل مهام هشام ومهام وليد */
+  {k:'هشام وليد', keys:['هشام وليد', 'هشام', 'وليد']},
+  {k:'أياد', keys:['أياد الشربيني', 'أياد', 'الشربيني']},
+  {k:'سنان', keys:['محمد سنان', 'سنان']}
+];
+function rowManager(row){
+  const cells = [...row.querySelectorAll('td')].map(td => td.textContent.trim());
+  for (const m of MGRS){
+    for (const c of cells){
+      if (m.keys.some(k => c.includes(k))) return m.k;
+    }
+  }
+  return null;
+}
+function managerStats(rows){
+  const stat = {}; MGRS.forEach(m => stat[m.k] = {n:0, pub:0});
+  rows.forEach(r => {
+    const k = rowManager(r); if (!k) return;
+    stat[k].n++;
+    if (statusOf(r) === 'منشور') stat[k].pub++;
+  });
+  const max = Math.max(1, ...MGRS.map(m => stat[m.k].n));
+  MGRS.forEach(m => {
+    document.querySelectorAll('[data-count="' + m.k + '"]').forEach(el => el.textContent = stat[m.k].n);
+    document.querySelectorAll('[data-pub="' + m.k + '"]').forEach(el => el.textContent = stat[m.k].pub);
+    const f = document.querySelector('[data-f="m-' + m.k + '"]');
+    const p = document.querySelector('[data-p="m-' + m.k + '"]');
+    if (f) f.style.width = (stat[m.k].n / max * 100) + '%';
+    if (p) p.textContent = stat[m.k].n;
+  });
+}
+function platformStats(shorts){
+  const buckets = {'تيك':0, 'ريلز':0, 'شورتس':0, 'كل':0};
+  shorts.forEach(r => {
+    const s = r.querySelector('select.st[data-v]');
+    const v = s ? s.value : '';
+    if (v.includes('تيك')) buckets['تيك']++;
+    else if (v.includes('ريلز')) buckets['ريلز']++;
+    else if (v.includes('شورتس')) buckets['شورتس']++;
+    else buckets['كل']++;
+  });
+  const max = Math.max(1, ...Object.values(buckets));
+  Object.keys(buckets).forEach(k => {
+    const f = document.querySelector('[data-f="p-' + k + '"]');
+    const p = document.querySelector('[data-p="p-' + k + '"]');
+    if (f) f.style.width = (buckets[k] / max * 100) + '%';
+    if (p) p.textContent = buckets[k];
+  });
+}
+
+/* ==================== SAVE / LOAD ==================== */
+function freezeControls(root){
+  root.querySelectorAll('select').forEach(s => {
+    [...s.options].forEach(o => { if (o.selected) o.setAttribute('selected', ''); else o.removeAttribute('selected'); });
+  });
+  root.querySelectorAll('input[type="checkbox"]').forEach(c => {
+    if (c.checked) c.setAttribute('checked', ''); else c.removeAttribute('checked');
+  });
+}
+function inputMap(){
+  const out = {};
+  document.querySelectorAll('input,select,textarea').forEach((el, i) => {
+    if (el.closest('[data-edit]')) return;
+    if (el.id === 'q' || el.id === 'imp') return;
+    if (!el.id) el.id = 'fld_' + i + '_' + el.tagName.toLowerCase();
+    out[el.id] = (el.type === 'checkbox') ? el.checked : el.value;
+  });
+  return out;
+}
+function snapshot(){
+  const regions = {};
+  document.querySelectorAll('[data-edit]').forEach(r => {
+    freezeControls(r);
+    regions[r.dataset.edit] = r.innerHTML;
+  });
+  return {savedAt: new Date().toISOString(), regions, inputs: inputMap()};
+}
+function saveNow(silent){
+  try {
+    const snap = snapshot();
+    localStorage.setItem(LS_KEY, JSON.stringify(snap));
+    const ls = document.getElementById('lastSave');
+    if (ls) ls.textContent = new Date().toLocaleString('ar-EG');
+    if (!silent) toast('تم الحفظ بنجاح 💾');
+  } catch (e) { if (!silent) toast('تعذّر الحفظ في هذا المتصفح'); }
+}
+function load(){
+  let raw = null;
+  try { raw = localStorage.getItem(LS_KEY); } catch (e) {}
+  if (!raw) { recalc(); return; }
+  try {
+    const snap = JSON.parse(raw);
+    Object.keys(snap.regions || {}).forEach(k => {
+      const el = document.querySelector('[data-edit="' + k + '"]');
+      if (el) el.innerHTML = snap.regions[k];
+    });
+    Object.keys(snap.inputs || {}).forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = snap.inputs[id];
+      else el.value = snap.inputs[id];
+    });
+    document.querySelectorAll('select.st').forEach(s => s.dataset.v = s.value);
+    syncProgress();
+    const lv = document.getElementById('lastSave');
+    if (lv && snap.savedAt) lv.textContent = new Date(snap.savedAt).toLocaleString('ar-EG');
+  } catch (e) {}
+  recalc();
+}
+function exportJSON(){
+  saveNow(true);
+  const data = JSON.stringify(snapshot(), null, 1);
+  download('بوصلة-نسخة-احتياطية-' + new Date().toISOString().slice(0,10) + '.json', data, 'application/json');
+  toast('تم تنزيل النسخة الاحتياطية');
+}
+function exportHTML(){
+  saveNow(true);
+  download('بوصلة-نظام-المتابعة-محدّث.html', '<!DOCTYPE html>\n' + document.documentElement.outerHTML, 'text/html');
+  toast('تم تنزيل نسخة HTML');
+}
+function importJSON(inp){
+  const f = inp.files && inp.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const snap = JSON.parse(rd.result);
+      if (!snap.regions) throw 0;
+      localStorage.setItem(LS_KEY, JSON.stringify(snap));
+      location.reload();
+    } catch (e) { toast('الملف غير صالح'); }
+  };
+  rd.readAsText(f);
+}
+function resetAll(){
+  if (!confirm('سيتم حذف كل التعديلات المحفوظة والعودة للنسخة الأصلية. متابعة؟')) return;
+  try { localStorage.removeItem(LS_KEY); } catch (e) {}
+  location.reload();
+}
+function download(name, text, type){
+  const blob = new Blob([text], {type: type + ';charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+/* ==================== SEARCH ==================== */
+document.getElementById('q').addEventListener('input', e => filterRows(e.target.value));
+function filterRows(q){
+  const term = (q || '').trim();
+  const pg = document.querySelector('.page.active');
+  if (!pg) return;
+  pg.querySelectorAll('table.tbl tbody tr').forEach(tr => {
+    tr.style.display = (!term || tr.textContent.includes(term)) ? '' : 'none';
+  });
+}
+
+/* ==================== MISC ==================== */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1900);
+}
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){ e.preventDefault(); saveNow(); }
+});
+document.addEventListener('input', e => {
+  if (e.target.matches('[contenteditable]')) { clearTimeout(window._sv); window._sv = setTimeout(() => saveNow(true), 900); }
+});
+document.addEventListener('change', e => {
+  if (e.target.matches('input[type="checkbox"], select')) { saveNow(true); }
+});
+
+/* ==================== SCRIPT TEMPLATES (embedded) ==================== */
+const TPL_B64 = "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImFyIiBkaXI9InJ0bCI+CjxoZWFkPgo8bWV0YSBjaGFyc2V0PSJ1dGYtOCI+CjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsaW5pdGlhbC1zY2FsZT0xIj4KPHRpdGxlPtio2YjYtdmE2Kkg4oCUINmC2YjYp9mE2Kgg2LPZg9ix2YrYqNiq2KfYqiB8INmE2YjZhtisINmB2YrYr9mK2YggKNmK2YjYqtmK2YjYqCkgKyDYtNmI2LHYqiDZgdmK2K/ZitmIICjYqtmK2YMg2KrZiNmDKTwvdGl0bGU+CjxsaW5rIHJlbD0icHJlY29ubmVjdCIgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbSI+CjxsaW5rIGhyZWY9Imh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzMj9mYW1pbHk9Q2Fpcm86d2dodEA0MDA7NjAwOzcwMDs5MDAmZmFtaWx5PVRhamF3YWw6d2dodEA0MDA7NzAwOzgwMCZkaXNwbGF5PXN3YXAiIHJlbD0ic3R5bGVzaGVldCI+CjxzdHlsZT4KICA6cm9vdHsKICAgIC0taW5rOiMwZDE0MjQ7IC0taW5rLTI6IzFlMmI0NTsgLS1tdXRlZDojNWY2ZjhjOyAtLWxpbmU6I2RmZTZmMTsgLS1zb2Z0OiNmNmY5ZmQ7CiAgICAtLXl0OiMwZWE1ZTk7IC0teXQtZDojMDc1OTg1OyAtLXR0OiNlYzQ4OTk7IC0tdHQtZDojOWQxNzRkOyAtLWdvbGQ6I2Y1OWUwYjsKICAgIC0tcmFkOjE0cHg7CiAgfQogICp7Ym94LXNpemluZzpib3JkZXItYm94OyAtd2Via2l0LXByaW50LWNvbG9yLWFkanVzdDpleGFjdDsgcHJpbnQtY29sb3ItYWRqdXN0OmV4YWN0O30KICBAcGFnZXsgc2l6ZTpBNDsgbWFyZ2luOjExbW0gMTBtbSAxM21tOyB9CiAgaHRtbCxib2R5e21hcmdpbjowO3BhZGRpbmc6MH0KICBib2R5ewogICAgZm9udC1mYW1pbHk6IlRhamF3YWwiLCJDYWlybyIsIk5vdG8gU2FucyBBcmFiaWMiLCJTZWdvZSBVSSIsVGFob21hLCJOb3RvIEt1ZmkgQXJhYmljIixzYW5zLXNlcmlmOwogICAgYmFja2dyb3VuZDojZTllZWY2OyBjb2xvcjp2YXIoLS1pbmspOyBmb250LXNpemU6MTEuMnB0OyBsaW5lLWhlaWdodDoxLjg1OwogIH0KICAuc2hlZXR7CiAgICBtYXgtd2lkdGg6MjAwbW07IG1hcmdpbjoxNHB4IGF1dG8gNDBweDsgYmFja2dyb3VuZDojZmZmOyBwYWRkaW5nOjltbSA4bW0gMTFtbTsKICAgIGJveC1zaGFkb3c6MCAxNHB4IDQwcHggcmdiYSgxMywyMCwzNiwuMTIpOyBib3JkZXItcmFkaXVzOjZweDsKICB9CgogIC8qID09PT09PT09PT09PSBDT1ZFUiAvIEhFQURFUiA9PT09PT09PT09PT0gKi8KICAuY292ZXJ7CiAgICBwb3NpdGlvbjpyZWxhdGl2ZTsgb3ZlcmZsb3c6aGlkZGVuOyBib3JkZXItcmFkaXVzOnZhcigtLXJhZCk7IHBhZGRpbmc6MTZweCAxOHB4OwogICAgYmFja2dyb3VuZDoKICAgICAgcmFkaWFsLWdyYWRpZW50KDEyMCUgMTYwJSBhdCAxMDAlIDAlLCAjMWUzYThhIDAlLCAjMGQxNDI0IDU1JSwgIzBkMTQyNCAxMDAlKTsKICAgIGNvbG9yOiNmZmY7IG1hcmdpbi1ib3R0b206MTRweDsKICB9CiAgLmNvdmVyOjphZnRlcnsKICAgIGNvbnRlbnQ6IiI7IHBvc2l0aW9uOmFic29sdXRlOyBpbnNldDphdXRvIC00MHB4IC03MHB4IGF1dG87IHdpZHRoOjIzMHB4OyBoZWlnaHQ6MjMwcHg7CiAgICBib3JkZXItcmFkaXVzOjUwJTsgYmFja2dyb3VuZDpyYWRpYWwtZ3JhZGllbnQoY2lyY2xlIGF0IDMwJSAzMCUsIHJnYmEoMjQ1LDE1OCwxMSwuNTUpLCByZ2JhKDI0NSwxNTgsMTEsMCkgNjIlKTsKICB9CiAgLmNvdmVyLXRvcHtkaXNwbGF5OmZsZXg7IGFsaWduLWl0ZW1zOmNlbnRlcjsgZ2FwOjE0cHg7IHBvc2l0aW9uOnJlbGF0aXZlOyB6LWluZGV4OjJ9CiAgLmxvZ297CiAgICB3aWR0aDo2NHB4OyBoZWlnaHQ6NjRweDsgZmxleDowIDAgNjRweDsgYm9yZGVyLXJhZGl1czo1MCU7IGRpc3BsYXk6Z3JpZDsgcGxhY2UtaXRlbXM6Y2VudGVyOwogICAgYmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoMTQ1ZGVnLCNmNTllMGIsI2Y5NzMxNik7IGJveC1zaGFkb3c6MCA4cHggMjJweCByZ2JhKDI0NSwxNTgsMTEsLjM1KTsKICB9CiAgLmxvZ28gc3Zne3dpZHRoOjQwcHg7aGVpZ2h0OjQwcHh9CiAgLmJyYW5kIGgxe21hcmdpbjowOyBmb250LXNpemU6MjZwdDsgZm9udC13ZWlnaHQ6OTAwOyBsZXR0ZXItc3BhY2luZzouNXB4OyBsaW5lLWhlaWdodDoxLjJ9CiAgLmJyYW5kIHB7bWFyZ2luOjJweCAwIDA7IGZvbnQtc2l6ZToxMXB0OyBjb2xvcjojYzdkMmZlOyBmb250LXdlaWdodDo2MDB9CiAgLmNvdmVyIGgyewogICAgcG9zaXRpb246cmVsYXRpdmU7IHotaW5kZXg6MjsgbWFyZ2luOjE0cHggMCAwOyBmb250LXNpemU6MTMuNXB0OyBmb250LXdlaWdodDo4MDA7CiAgICBib3JkZXItdG9wOjFweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LC4xNik7IHBhZGRpbmctdG9wOjEycHg7CiAgfQogIC5jb3ZlciAuY2hpcHN7cG9zaXRpb246cmVsYXRpdmU7IHotaW5kZXg6MjsgZGlzcGxheTpmbGV4OyBmbGV4LXdyYXA6d3JhcDsgZ2FwOjhweDsgbWFyZ2luLXRvcDoxMHB4fQogIC5jaGlwewogICAgYmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC4xMCk7IGJvcmRlcjoxcHggc29saWQgcmdiYSgyNTUsMjU1LDI1NSwuMjIpOwogICAgcGFkZGluZzo1cHggMTJweDsgYm9yZGVyLXJhZGl1czo5OTlweDsgZm9udC1zaXplOjkuNXB0OyBmb250LXdlaWdodDo3MDA7CiAgfQogIC5jaGlwLnl0e2JhY2tncm91bmQ6cmdiYSgxNCwxNjUsMjMzLC4yMik7IGJvcmRlci1jb2xvcjpyZ2JhKDU2LDE4OSwyNDgsLjQ1KX0KICAuY2hpcC50dHtiYWNrZ3JvdW5kOnJnYmEoMjM2LDcyLDE1MywuMjIpOyBib3JkZXItY29sb3I6cmdiYSgyNDQsMTE0LDE4MiwuNDUpfQoKICAvKiA9PT09PT09PT09PT0gR0VORVJJQyBCTE9DS1MgPT09PT09PT09PT09ICovCiAgaDMuc2VjewogICAgZGlzcGxheTpmbGV4OyBhbGlnbi1pdGVtczpjZW50ZXI7IGdhcDoxMHB4OyBmb250LXNpemU6MTRwdDsgZm9udC13ZWlnaHQ6OTAwOyBtYXJnaW46MThweCAwIDEwcHg7CiAgICBwYWRkaW5nOjEwcHggMTRweDsgYm9yZGVyLXJhZGl1czoxMnB4OyBjb2xvcjojZmZmOwogIH0KICBoMy5zZWMgLm51bXsKICAgIHdpZHRoOjI2cHg7aGVpZ2h0OjI2cHg7ZmxleDowIDAgMjZweDtib3JkZXItcmFkaXVzOjUwJTtkaXNwbGF5OmdyaWQ7cGxhY2UtaXRlbXM6Y2VudGVyOwogICAgYmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC4yMik7IGZvbnQtc2l6ZToxMXB0OyBmb250LXdlaWdodDo5MDA7CiAgfQogIGgzLnNlYy55dHtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZyx2YXIoLS15dC1kKSx2YXIoLS15dCkpfQogIGgzLnNlYy50dHtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZyx2YXIoLS10dC1kKSx2YXIoLS10dCkpfQogIGgzLnNlYy5udHtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZywjMWUyOTNiLCM0NzU1NjkpfQogIGgzLnNlYyBzbWFsbHtmb250LXdlaWdodDo2MDA7IG9wYWNpdHk6Ljg1OyBmb250LXNpemU6OS41cHQ7IG1hcmdpbi1pbmxpbmUtc3RhcnQ6YXV0b30KCiAgLmg0ewogICAgZm9udC1zaXplOjExLjVwdDsgZm9udC13ZWlnaHQ6OTAwOyBjb2xvcjp2YXIoLS1pbmstMik7IG1hcmdpbjoxNHB4IDAgOHB4OwogICAgZGlzcGxheTpmbGV4OyBhbGlnbi1pdGVtczpjZW50ZXI7IGdhcDo4cHg7CiAgfQogIC5oNDo6YmVmb3Jle2NvbnRlbnQ6IiI7IHdpZHRoOjVweDsgaGVpZ2h0OjE2cHg7IGJvcmRlci1yYWRpdXM6M3B4OyBiYWNrZ3JvdW5kOnZhcigtLWdvbGQpfQogIC5oNC55dDo6YmVmb3Jle2JhY2tncm91bmQ6dmFyKC0teXQpfSAuaDQudHQ6OmJlZm9yZXtiYWNrZ3JvdW5kOnZhcigtLXR0KX0KCiAgLmdyaWR7ZGlzcGxheTpncmlkOyBnYXA6OHB4fQogIC5nMntncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmcn0KICAuZzN7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmciAxZnIgMWZyfQogIC5nNHtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDQsMWZyKX0KCiAgLmZsZHtib3JkZXI6MXB4IHNvbGlkIHZhcigtLWxpbmUpOyBib3JkZXItcmFkaXVzOjEwcHg7IHBhZGRpbmc6NnB4IDlweDsgYmFja2dyb3VuZDp2YXIoLS1zb2Z0KTsgbWluLWhlaWdodDo1MnB4fQogIC5mbGQgPiBzcGFue2Rpc3BsYXk6YmxvY2s7IGZvbnQtc2l6ZTo4LjhwdDsgZm9udC13ZWlnaHQ6ODAwOyBjb2xvcjp2YXIoLS1tdXRlZCk7IG1hcmdpbi1ib3R0b206MnB4fQogIC5mbGQgLmxpbmVze2hlaWdodDoyMnB4OyBib3JkZXItYm90dG9tOjFweCBkb3R0ZWQgI2MzY2ZlMH0KICAuZmxkLnNob3J0e21pbi1oZWlnaHQ6NDZweH0KCiAgLnRpcHsKICAgIGJvcmRlci1yYWRpdXM6MTJweDsgcGFkZGluZzoxMHB4IDEzcHg7IGZvbnQtc2l6ZToxMC4zcHQ7IGxpbmUtaGVpZ2h0OjEuNzU7CiAgICBiYWNrZ3JvdW5kOiNmZmZiZWI7IGJvcmRlcjoxcHggc29saWQgI2ZkZTY4YTsgY29sb3I6Izc4MzUwZjsKICB9CiAgLnRpcCBie2NvbG9yOiM5MjQwMGV9CgogIC8qID09PT09PT09PT09PSBTVEVQUyA9PT09PT09PT09PT0gKi8KICAuc3RlcHN7ZGlzcGxheTpncmlkOyBncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDMsMWZyKTsgZ2FwOjlweDsgbWFyZ2luOjEwcHggMCA0cHh9CiAgLnN0ZXB7YmFja2dyb3VuZDp2YXIoLS1zb2Z0KTsgYm9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTsgYm9yZGVyLXJhZGl1czoxMnB4OyBwYWRkaW5nOjEwcHggMTJweH0KICAuc3RlcCAubnsKICAgIGRpc3BsYXk6aW5saW5lLWdyaWQ7IHBsYWNlLWl0ZW1zOmNlbnRlcjsgd2lkdGg6MjJweDtoZWlnaHQ6MjJweDtib3JkZXItcmFkaXVzOjUwJTsKICAgIGJhY2tncm91bmQ6dmFyKC0taW5rKTsgY29sb3I6I2ZmZjsgZm9udC1zaXplOjkuNXB0OyBmb250LXdlaWdodDo5MDA7IG1hcmdpbi1ib3R0b206NXB4OwogIH0KICAuc3RlcCBie2Rpc3BsYXk6YmxvY2s7IGZvbnQtc2l6ZToxMC41cHR9CiAgLnN0ZXAgcHttYXJnaW46M3B4IDAgMDsgZm9udC1zaXplOjkuNXB0OyBjb2xvcjp2YXIoLS1tdXRlZCk7IGxpbmUtaGVpZ2h0OjEuNjV9CgogIC8qID09PT09PT09PT09PSBUQUJMRVMgPT09PT09PT09PT09ICovCiAgdGFibGV7d2lkdGg6MTAwJTsgYm9yZGVyLWNvbGxhcHNlOmNvbGxhcHNlOyBtYXJnaW46NnB4IDAgNHB4OyB0YWJsZS1sYXlvdXQ6Zml4ZWR9CiAgdGhlYWR7ZGlzcGxheTp0YWJsZS1oZWFkZXItZ3JvdXB9CiAgdGh7CiAgICBiYWNrZ3JvdW5kOnZhcigtLWluayk7IGNvbG9yOiNmZmY7IGZvbnQtc2l6ZTo5LjNwdDsgZm9udC13ZWlnaHQ6ODAwOyBwYWRkaW5nOjdweCA2cHg7CiAgICBib3JkZXI6MXB4IHNvbGlkICMyMjMwNGQ7IHRleHQtYWxpZ246cmlnaHQ7IGxpbmUtaGVpZ2h0OjEuNTsKICB9CiAgdGgueXR7YmFja2dyb3VuZDp2YXIoLS15dC1kKTsgYm9yZGVyLWNvbG9yOiMwYjRhNmZ9IHRoLnR0e2JhY2tncm91bmQ6dmFyKC0tdHQtZCk7IGJvcmRlci1jb2xvcjojODMxODQzfQogIHRke2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7IHBhZGRpbmc6NnB4OyBoZWlnaHQ6MS4zNWNtOyB2ZXJ0aWNhbC1hbGlnbjp0b3A7IGZvbnQtc2l6ZToxMHB0fQogIHRkLmRvdHtiYWNrZ3JvdW5kLWltYWdlOnJlcGVhdGluZy1saW5lYXItZ3JhZGllbnQodHJhbnNwYXJlbnQgMCAyN3B4LCAjZWVmM2ZhIDI3cHggMjhweCl9CiAgdGJvZHkgdHI6bnRoLWNoaWxkKGV2ZW4pIHRke2JhY2tncm91bmQtY29sb3I6I2ZiZmRmZn0KICB0Ym9keSB0cjpudGgtY2hpbGQoZXZlbikgdGQuZG90e2JhY2tncm91bmQtaW1hZ2U6cmVwZWF0aW5nLWxpbmVhci1ncmFkaWVudCh0cmFuc3BhcmVudCAwIDI3cHgsICNlZWYzZmEgMjdweCAyOHB4KX0KICAuY3t0ZXh0LWFsaWduOmNlbnRlcn0KICB0Ym9keSB0cnticmVhay1pbnNpZGU6YXZvaWR9CiAgdHIsdGQsdGh7YnJlYWstaW5zaWRlOmF2b2lkfQoKICAvKiA9PT09PT09PT09PT0gQ0xJUCBDQVJEUyAoU0hPUlRTKSA9PT09PT09PT09PT0gKi8KICAuY2xpcHN7ZGlzcGxheTpncmlkOyBncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmcjsgZ2FwOjEwcHh9CiAgLmNsaXB7Ym9yZGVyOjFweCBzb2xpZCAjZjNjZmUwOyBib3JkZXItcmFkaXVzOnZhcigtLXJhZCk7IG92ZXJmbG93OmhpZGRlbjsgYnJlYWstaW5zaWRlOmF2b2lkOyBiYWNrZ3JvdW5kOiNmZmZ9CiAgLmNsaXAgLmhlYWR7CiAgICBiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZyx2YXIoLS10dC1kKSx2YXIoLS10dCkpOyBjb2xvcjojZmZmOyBwYWRkaW5nOjdweCAxMnB4OwogICAgZGlzcGxheTpmbGV4OyBhbGlnbi1pdGVtczpjZW50ZXI7IGdhcDo4cHg7IGZvbnQtd2VpZ2h0OjkwMDsgZm9udC1zaXplOjExcHQ7CiAgfQogIC5jbGlwIC5oZWFkIC50YWd7CiAgICBiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsLjIpOyBib3JkZXItcmFkaXVzOjk5OXB4OyBwYWRkaW5nOjJweCA5cHg7IGZvbnQtc2l6ZTo4LjZwdDsgZm9udC13ZWlnaHQ6NzAwOyBtYXJnaW4taW5saW5lLXN0YXJ0OmF1dG8KICB9CiAgLmNsaXAgLmJvZHl7cGFkZGluZzo5cHggMTFweH0KICAucm93MntkaXNwbGF5OmdyaWQ7IGdyaWQtdGVtcGxhdGUtY29sdW1uczoxZnIgMWZyOyBnYXA6NnB4OyBtYXJnaW4tYm90dG9tOjZweH0KICAubWluaXtib3JkZXI6MXB4IHNvbGlkIHZhcigtLWxpbmUpOyBib3JkZXItcmFkaXVzOjhweDsgcGFkZGluZzo0cHggN3B4OyBiYWNrZ3JvdW5kOnZhcigtLXNvZnQpfQogIC5taW5pIHNwYW57Zm9udC1zaXplOjguNHB0OyBmb250LXdlaWdodDo4MDA7IGNvbG9yOnZhcigtLW11dGVkKTsgZGlzcGxheTpibG9ja30KICAubWluaSAubHtoZWlnaHQ6MTlweDsgYm9yZGVyLWJvdHRvbToxcHggZG90dGVkICNjM2NmZTB9CiAgLndsYWJ7Zm9udC1zaXplOjkuMnB0OyBmb250LXdlaWdodDo4MDA7IGNvbG9yOnZhcigtLXR0LWQpOyBtYXJnaW46NnB4IDAgMnB4fQogIC53bGluZXtoZWlnaHQ6MjFweDsgYm9yZGVyLWJvdHRvbToxcHggZG90dGVkICNjZmQ5ZTh9CiAgLmhvb2t7YmFja2dyb3VuZDojZmZmMWY3OyBib3JkZXI6MXB4IGRhc2hlZCAjZjBhNmM4OyBib3JkZXItcmFkaXVzOjlweDsgcGFkZGluZzo2cHggOXB4fQogIC5ob29rIC53bGFie2NvbG9yOiNiZTE4NWQ7IG1hcmdpbi10b3A6MH0KCiAgLyogPT09PT09PT09PT09IENIRUNLTElTVCA9PT09PT09PT09PT0gKi8KICAuY2hlY2t7ZGlzcGxheTpncmlkOyBncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmcjsgZ2FwOjVweCAxNnB4OyBtYXJnaW46NnB4IDB9CiAgLmNoZWNrIGRpdntmb250LXNpemU6MTAuMnB0OyBwYWRkaW5nOjNweCAwOyBib3JkZXItYm90dG9tOjFweCBkb3R0ZWQgI2UyZThmMn0KICAuY2hlY2sgZGl2OjpiZWZvcmV7Y29udGVudDoi4piQICI7IGNvbG9yOnZhcigtLXR0KTsgZm9udC13ZWlnaHQ6OTAwfQoKICAuZm9vdHsKICAgIG1hcmdpbi10b3A6MTZweDsgcGFkZGluZy10b3A6OXB4OyBib3JkZXItdG9wOjJweCBzb2xpZCB2YXIoLS1pbmspOyBkaXNwbGF5OmZsZXg7CiAgICBqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2VlbjsgZm9udC1zaXplOjlwdDsgY29sb3I6dmFyKC0tbXV0ZWQpOyBmb250LXdlaWdodDo3MDA7CiAgfQogIC5mb290IC5wZzo6YWZ0ZXJ7Y29udGVudDoiIOKAlCDYtdmB2K3YqSAiOyB9CgogIC8qID09PT09PT09PT09PSBUT09MQkFSICjZhNinINiq2Y/Yt9io2LkpID09PT09PT09PT09PSAqLwogIC5iYXJ7CiAgICBwb3NpdGlvbjpzdGlja3k7IHRvcDowOyB6LWluZGV4Ojk7IGRpc3BsYXk6ZmxleDsgZ2FwOjlweDsgYWxpZ24taXRlbXM6Y2VudGVyOwogICAgbWF4LXdpZHRoOjIwMG1tOyBtYXJnaW46MTRweCBhdXRvIC00cHg7IHBhZGRpbmc6OXB4IDEycHg7IGJvcmRlci1yYWRpdXM6MTJweDsKICAgIGJhY2tncm91bmQ6IzBkMTQyNDsgY29sb3I6I2ZmZjsgYm94LXNoYWRvdzowIDhweCAyNHB4IHJnYmEoMTMsMjAsMzYsLjIpCiAgfQogIC5iYXIgYntmb250LXNpemU6MTAuNXB0fQogIC5iYXIgLnNwe21hcmdpbi1pbmxpbmUtc3RhcnQ6YXV0bzsgZGlzcGxheTpmbGV4OyBnYXA6OHB4fQogIC5idG57CiAgICBjdXJzb3I6cG9pbnRlcjsgYm9yZGVyOjA7IGJvcmRlci1yYWRpdXM6OXB4OyBwYWRkaW5nOjhweCAxNHB4OyBmb250LWZhbWlseTppbmhlcml0OwogICAgZm9udC13ZWlnaHQ6ODAwOyBmb250LXNpemU6MTBwdDsgYmFja2dyb3VuZDojZjU5ZTBiOyBjb2xvcjojMjQxYTAyOwogIH0KICAuYnRuLmdob3N0e2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwuMTQpOyBjb2xvcjojZmZmfQogIC5idG46YWN0aXZle3RyYW5zZm9ybTp0cmFuc2xhdGVZKDFweCl9CgogIC8qID09PT09PT09PT09PSBQUklOVCA9PT09PT09PT09PT0gKi8KICBAbWVkaWEgcHJpbnR7CiAgICBib2R5e2JhY2tncm91bmQ6I2ZmZjsgZm9udC1zaXplOjEwLjZwdH0KICAgIC5zaGVldHtib3gtc2hhZG93Om5vbmU7IG1hcmdpbjowOyBtYXgtd2lkdGg6bm9uZTsgcGFkZGluZzowOyBib3JkZXItcmFkaXVzOjB9CiAgICAuYmFyLC5uby1wcmludHtkaXNwbGF5Om5vbmUgIWltcG9ydGFudH0KICAgIC5jb3Zlcntib3JkZXItcmFkaXVzOjEwcHg7IC13ZWJraXQtcHJpbnQtY29sb3ItYWRqdXN0OmV4YWN0fQogICAgaDMuc2VjLC5jbGlwIC5oZWFkLHRoZWFkIHRoLC5ob29rLC50aXAsLmZsZCwuc3RlcCwubWluaXstd2Via2l0LXByaW50LWNvbG9yLWFkanVzdDpleGFjdH0KICAgIC5wYnticmVhay1iZWZvcmU6cGFnZX0KICAgIGgzLnNlY3ticmVhay1hZnRlcjphdm9pZH0KICAgIC5oNHticmVhay1hZnRlcjphdm9pZH0KICAgIC5jbGlwc3tnYXA6OHB4fQogIH0KICBAbWVkaWEgKG1heC13aWR0aDo3MjBweCl7CiAgICAuZzQsLmczLC5zdGVwcywuY2xpcHMsLmNoZWNrLC5yb3cye2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9CiAgICAuc2hlZXR7cGFkZGluZzoxNHB4fQogIH0KPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCjwhLS0gPT09PT09PT09PT09PT09PT0gVE9PTEJBUiAo2KrZj9iu2YHZiSDYudmG2K8g2KfZhNi32KjYp9i52KkpID09PT09PT09PT09PT09PT09IC0tPgo8ZGl2IGNsYXNzPSJiYXIgbm8tcHJpbnQiPgogIDxiPtio2YjYtdmE2Kkg4oCUINmC2YjYp9mE2Kgg2LPZg9ix2YrYqNiq2KfYqjwvYj4KICA8ZGl2IGNsYXNzPSJzcCI+CiAgICA8YnV0dG9uIGNsYXNzPSJidG4gZ2hvc3QiIG9uY2xpY2s9ImFkZFJvdygpIj4rINi12YEg2LPZg9ix2YrYqNiqPC9idXR0b24+CiAgICA8YnV0dG9uIGNsYXNzPSJidG4gZ2hvc3QiIG9uY2xpY2s9ImFkZENsaXAoKSI+KyDYtNmI2LHYqjwvYnV0dG9uPgogICAgPGJ1dHRvbiBjbGFzcz0iYnRuIiBvbmNsaWNrPSJ3aW5kb3cucHJpbnQoKSI+8J+WqO+4jyDYt9io2KfYudipIC8g2K3Zgdi4IFBERjwvYnV0dG9uPgogIDwvZGl2Pgo8L2Rpdj4KCjxkaXYgY2xhc3M9InNoZWV0Ij4KCiAgPCEtLSA9PT09PT09PT09PT09PT09PSDYp9mE2LrZhNin2YEgPT09PT09PT09PT09PT09PT0gLS0+CiAgPGhlYWRlciBjbGFzcz0iY292ZXIiPgogICAgPGRpdiBjbGFzcz0iY292ZXItdG9wIj4KICAgICAgPGRpdiBjbGFzcz0ibG9nbyIgYXJpYS1oaWRkZW49InRydWUiPgogICAgICAgIDxzdmcgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyNDFhMDIiIHN0cm9rZS13aWR0aD0iMS45IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgICAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iOS4yIi8+PHBhdGggZD0iTTE1LjYgOC40bC0yLjEgNS4xLTUuMSAyLjEgMi4xLTUuMXoiIGZpbGw9IiMyNDFhMDIiIHN0cm9rZT0ibm9uZSIvPgogICAgICAgIDwvc3ZnPgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iYnJhbmQiPgogICAgICAgIDxoMT7YqNmI2LXZhNipPC9oMT4KICAgICAgICA8cD7YqNmI2K/Zg9in2LPYqiDCtyDZgtmI2KfZhNioINiz2YPYsdmK2KjYqtin2Kog2KzYp9mH2LLYqSDZhNmE2LfYqNin2LnYqTwvcD4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICAgIDxoMj7Ys9mD2LHZitio2Kog2KfZhNit2YTZgtipINin2YTYt9mI2YrZhNipICjZitmI2KrZitmI2KgpICZuYnNwOysmbmJzcDsg2KfZgtiq2LfYp9i5INin2YTYtNmI2LHYqiAo2KrZitmDINiq2YjZgykg2YXZhiDZhtmB2LMg2KfZhNit2YTZgtipPC9oMj4KICAgIDxkaXYgY2xhc3M9ImNoaXBzIj4KICAgICAgPHNwYW4gY2xhc3M9ImNoaXAgeXQiPtin2YTZhNmI2YbYrCDZgdmK2K/ZitmIIOKAlCDZitmI2KrZitmI2Kg8L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJjaGlwIHR0Ij7Yp9mE2LTZiNix2Kog2YHZitiv2YrZiCDigJQg2KrZitmDINiq2YjZgzwvc3Bhbj4KICAgICAgPHNwYW4gY2xhc3M9ImNoaXAiPtio2YjYr9mD2KfYs9iqINio2YrZhiDYtNiu2LXZitmGINij2Ygg2KPZg9ir2LE8L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJjaGlwIj5BNCDCtyDYrNin2YfYsiDZhNmE2LfYqNin2LnYqTwvc3Bhbj4KICAgIDwvZGl2PgogIDwvaGVhZGVyPgoKICA8IS0tID09PT09PT09PT09PT09PT09INiv2YTZitmEINin2YTYqtit2YjZitmEID09PT09PT09PT09PT09PT09IC0tPgogIDxkaXYgY2xhc3M9InN0ZXBzIj4KICAgIDxkaXYgY2xhc3M9InN0ZXAiPgogICAgICA8c3BhbiBjbGFzcz0ibiI+2aE8L3NwYW4+CiAgICAgIDxiPtin2YPYqtioINin2YTZhNmI2YbYrCDYo9mI2YTYp9mLPC9iPgogICAgICA8cD7Yp9iz2KzZkdmEL9in2YPYqtioINin2YTYrdmE2YLYqSDZg9in2YXZhNipINmB2Yog2KfZhNmC2LPZhSDYp9mE2KPZiNmE2Iwg2YjYudmE2ZHZhSDYqNmAIOKYhSDYudmE2Ykg2YPZhCDZhNit2LjYqSDZgtmI2YrYqSDYo9ir2YbYp9ihINin2YTZg9iq2KfYqNipLjwvcD4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0ic3RlcCI+CiAgICAgIDxzcGFuIGNsYXNzPSJuIj7Zojwvc3Bhbj4KICAgICAgPGI+2KfZhNiq2YLYtyDYp9mE2YTYrdi42KfYqjwvYj4KICAgICAgPHA+2YPZhCDimIUgPSDYtNmI2LHYqiDZhdit2KrZhdmELiDYp9mG2YLZhCDYp9mE2KrZiNmC2YrYqiArINin2YTZhti1INil2YTZiSDYqNi32KfZgtipINi02YjYsdiqINmB2Yog2KfZhNmC2LPZhSDYp9mE2KvYp9mG2YouPC9wPgogICAgPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJzdGVwIj4KICAgICAgPHNwYW4gY2xhc3M9Im4iPtmjPC9zcGFuPgogICAgICA8Yj7Yo9i52K8g2KfZhNi12YrYp9i62Kkg2ak62aHZpjwvYj4KICAgICAgPHA+2YfZiNmDINmB2Yog2KPZiNmEINmjINir2YjYp9mG2YrYjCDZgdmD2LHYqSDZiNin2K3Yr9ipINmB2YLYt9iMINmI2YbZh9in2YrYqSDYqtiv2YHYuSDZhNmE2YXYqtin2KjYudipIChDVVQg4oaSIENBUFRJT04g4oaSIFBPU1QpLjwvcD4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8IS0tID09PT09PT09PT09PT09PT09INin2YTZgtiz2YUg2aE6INin2YTZhNmI2YbYrCA9PT09PT09PT09PT09PT09PSAtLT4KICA8aDMgY2xhc3M9InNlYyB5dCI+PHNwYW4gY2xhc3M9Im51bSI+2aE8L3NwYW4+INin2YTZhNmI2YbYrCDZgdmK2K/ZitmIIOKAlCDZitmI2KrZitmI2KggPHNtYWxsPllvdVR1YmUgTG9uZy1mb3JtIFNjcmlwdDwvc21hbGw+PC9oMz4KCiAgPGRpdiBjbGFzcz0iaDQgeXQiPtio2YrYp9mG2KfYqiDYp9mE2K3ZhNmC2Kk8L2Rpdj4KICA8ZGl2IGNsYXNzPSJncmlkIGc0Ij4KICAgIDxkaXYgY2xhc3M9ImZsZCI+PHNwYW4+2KfYs9mFINin2YTZgtmG2KfYqTwvc3Bhbj48ZGl2IGNsYXNzPSJsaW5lcyI+2KjZiNi12YTYqTwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0iZmxkIj48c3Bhbj7YsdmC2YUg2KfZhNit2YTZgtipPC9zcGFuPjxkaXYgY2xhc3M9ImxpbmVzIj48L2Rpdj48L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImZsZCI+PHNwYW4+2KrYp9ix2YrYriDYp9mE2YbYtNixIC8g2KfZhNiq2LXZiNmK2LE8L3NwYW4+PGRpdiBjbGFzcz0ibGluZXMiPjwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0iZmxkIj48c3Bhbj7Yp9mE2YXYr9ipINin2YTZg9mE2YrYqTwvc3Bhbj48ZGl2IGNsYXNzPSJsaW5lcyI+PC9kaXY+PC9kaXY+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0iZ3JpZCBnMiIgc3R5bGU9Im1hcmdpbi10b3A6OHB4Ij4KICAgIDxkaXYgY2xhc3M9ImZsZCI+PHNwYW4+2LnZhtmI2KfZhiDYp9mE2K3ZhNmC2KkgKNin2YTZhdmC2KrYsditKTwvc3Bhbj48ZGl2IGNsYXNzPSJsaW5lcyI+PC9kaXY+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJmbGQiPjxzcGFuPtin2YTYrNmF2YfZiNixINin2YTZhdiz2KrZh9iv2YEgLyDYp9mE2YHZg9ix2Kkg2KfZhNmI2KfYrdiv2Kkg2KfZhNmD2KjYsdmJPC9zcGFuPjxkaXYgY2xhc3M9ImxpbmVzIj48L2Rpdj48L2Rpdj4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJncmlkIGczIiBzdHlsZT0ibWFyZ2luLXRvcDo4cHgiPgogICAgPGRpdiBjbGFzcz0iZmxkIHNob3J0Ij48c3Bhbj7Yp9mE2YXYqtit2K/YqyDZoSAo2KfZhNmF2LbZitmBKTwvc3Bhbj48ZGl2IGNsYXNzPSJsaW5lcyI+PC9kaXY+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJmbGQgc2hvcnQiPjxzcGFuPtin2YTZhdiq2K3Yr9irINmiPC9zcGFuPjxkaXYgY2xhc3M9ImxpbmVzIj48L2Rpdj48L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImZsZCBzaG9ydCI+PHNwYW4+2KfZhNmF2KrYrdiv2Ksg2aMgLyDYttmK2YE8L3NwYW4+PGRpdiBjbGFzcz0ibGluZXMiPjwvZGl2PjwvZGl2PgogIDwvZGl2PgoKICA8ZGl2IGNsYXNzPSJoNCB5dCI+2YfZitmD2YQg2KfZhNit2YTZgtipICjYp9mE2KjZhtmK2Kkg2YLYqNmEINin2YTZg9iq2KfYqNipKTwvZGl2PgogIDx0YWJsZT4KICAgIDxjb2xncm91cD48Y29sIHN0eWxlPSJ3aWR0aDoyNiUiPjxjb2wgc3R5bGU9IndpZHRoOjE2JSI+PGNvbCBzdHlsZT0id2lkdGg6NTglIj48L2NvbGdyb3VwPgogICAgPHRoZWFkPgogICAgICA8dHI+PHRoIGNsYXNzPSJ5dCI+2KfZhNmF2YLYt9i5PC90aD48dGggY2xhc3M9Inl0IGMiPtin2YTYqtmI2YLZitiqPC90aD48dGggY2xhc3M9Inl0Ij7Yp9mE2YjYudivIC8g2KfZhNmH2K/ZgSDZhdmGINin2YTZhdmC2LfYuTwvdGg+PC90cj4KICAgIDwvdGhlYWQ+CiAgICA8dGJvZHk+CiAgICAgIDx0cj48dGQ+PGI+2KfZhNin2YHYqtiq2KfYrdmK2KkgKEhvb2spPC9iPjxicj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjlwdDtjb2xvcjojNWY2ZjhjIj7YrNmF2YTYqSDYqti02YjZitmCICsg2YjYudivINin2YTYrdmE2YLYqTwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iYyI+PHNwYW4gZGlyPSJsdHIiIHN0eWxlPSJ1bmljb2RlLWJpZGk6aXNvbGF0ZSI+MDowMCDigJMgMDo0NTwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjwvdHI+CiAgICAgIDx0cj48dGQ+PGI+2KfZhNiq2LnYsdmK2YEg2KjYp9mE2K3YttmI2LE8L2I+PGJyPjxzcGFuIHN0eWxlPSJmb250LXNpemU6OXB0O2NvbG9yOiM1ZjZmOGMiPtmF2YYg2KPZhtiq2YUgKyDZhNmF2KfYsNinINmK2LPYqtmF2Lkg2YTZijwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iYyI+PHNwYW4gZGlyPSJsdHIiIHN0eWxlPSJ1bmljb2RlLWJpZGk6aXNvbGF0ZSI+MDo0NSDigJMgMzowMDwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjwvdHI+CiAgICAgIDx0cj48dGQ+PGI+2KfZhNmF2K3ZiNixINin2YTYo9mI2YQ8L2I+PC90ZD48dGQgY2xhc3M9ImMiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PC90cj4KICAgICAgPHRyPjx0ZD48Yj7Yp9mE2YXYrdmI2LEg2KfZhNir2KfZhtmKPC9iPjwvdGQ+PHRkIGNsYXNzPSJjIj48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjwvdHI+CiAgICAgIDx0cj48dGQ+PGI+2KfZhNmF2K3ZiNixINin2YTYq9in2YTYqzwvYj48L3RkPjx0ZCBjbGFzcz0iYyI+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48L3RyPgogICAgICA8dHI+PHRkPjxiPtmE2K3YuNipINin2YTYsNix2YjYqSAvINin2YTYrtmE2KfZgSDYp9mE2YjYr9mKPC9iPjwvdGQ+PHRkIGNsYXNzPSJjIj48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjwvdHI+CiAgICAgIDx0cj48dGQ+PGI+2KfZhNiu2KfYqtmF2KkgKyBDVEE8L2I+PGJyPjxzcGFuIHN0eWxlPSJmb250LXNpemU6OXB0O2NvbG9yOiM1ZjZmOGMiPtin2LTYqtix2YMg4oCUINi52YTZkdmCIOKAlCDYp9mE2K3ZhNmC2Kkg2KfZhNmC2KfYr9mF2Kk8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImMiPtii2K7YsSAzINivPC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48L3RyPgogICAgPC90Ym9keT4KICA8L3RhYmxlPgoKICA8ZGl2IGNsYXNzPSJoNCB5dCI+2LPZg9ix2YrYqNiqINin2YTYrdmE2YLYqSDYp9mE2KrZgdi12YrZhNmKIDxzcGFuIHN0eWxlPSJmb250LXdlaWdodDo2MDA7Zm9udC1zaXplOjkuNXB0O2NvbG9yOiM1ZjZmOGMiPijYudmE2ZHZhSDimIUg2LnZhNmJINin2YTZhNit2LjYp9iqINin2YTYtdin2YTYrdipINmE2YTYtNmI2LHYqik8L3NwYW4+PC9kaXY+CiAgPHRhYmxlIGlkPSJsb25nVGFibGUiPgogICAgPGNvbGdyb3VwPgogICAgICA8Y29sIHN0eWxlPSJ3aWR0aDo2JSI+PGNvbCBzdHlsZT0id2lkdGg6MTMlIj48Y29sIHN0eWxlPSJ3aWR0aDoxMyUiPjxjb2wgc3R5bGU9IndpZHRoOjQwJSI+PGNvbCBzdHlsZT0id2lkdGg6MjElIj48Y29sIHN0eWxlPSJ3aWR0aDo3JSI+CiAgICA8L2NvbGdyb3VwPgogICAgPHRoZWFkPgogICAgICA8dHI+CiAgICAgICAgPHRoIGNsYXNzPSJ5dCBjIj4jPC90aD4KICAgICAgICA8dGggY2xhc3M9Inl0IGMiPtin2YTYqtmI2YLZitiqPGJyPtmF2YYg4oCTINil2YTZiTwvdGg+CiAgICAgICAgPHRoIGNsYXNzPSJ5dCI+2KfZhNmF2KrYrdiv2Ks8L3RoPgogICAgICAgIDx0aCBjbGFzcz0ieXQiPtin2YTZhti1INmD2YXYpyDZitmP2YLYp9mEICjZg9iq2KfYqNipINmF2YbYt9mI2YLYqSk8L3RoPgogICAgICAgIDx0aCBjbGFzcz0ieXQiPtmF2YTYp9it2LjYp9iqINin2YTYpdiu2LHYp9isPGJyPjxzcGFuIHN0eWxlPSJmb250LXdlaWdodDo2MDA7Zm9udC1zaXplOjguNHB0Ij7Zg9in2YXZitix2KcgLyDYpdi22KfYodipIC8g2YXZiNmG2KrYp9isPC9zcGFuPjwvdGg+CiAgICAgICAgPHRoIGNsYXNzPSJ5dCBjIj7imIU8L3RoPgogICAgICA8L3RyPgogICAgPC90aGVhZD4KICAgIDx0Ym9keSBpZD0ibG9uZ0JvZHkiPgogICAgICA8dHI+PHRkIGNsYXNzPSJjIj4xPC90ZD48dGQ+PC90ZD48dGQ+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImMiPuKYkDwvdGQ+PC90cj4KICAgICAgPHRyPjx0ZCBjbGFzcz0iYyI+MjwvdGQ+PHRkPjwvdGQ+PHRkPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJjIj7imJA8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImMiPjM8L3RkPjx0ZD48L3RkPjx0ZD48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iYyI+4piQPC90ZD48L3RyPgogICAgICA8dHI+PHRkIGNsYXNzPSJjIj40PC90ZD48dGQ+PC90ZD48dGQ+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImMiPuKYkDwvdGQ+PC90cj4KICAgICAgPHRyPjx0ZCBjbGFzcz0iYyI+NTwvdGQ+PHRkPjwvdGQ+PHRkPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJjIj7imJA8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImMiPjY8L3RkPjx0ZD48L3RkPjx0ZD48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iYyI+4piQPC90ZD48L3RyPgogICAgICA8dHI+PHRkIGNsYXNzPSJjIj43PC90ZD48dGQ+PC90ZD48dGQ+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImMiPuKYkDwvdGQ+PC90cj4KICAgICAgPHRyPjx0ZCBjbGFzcz0iYyI+ODwvdGQ+PHRkPjwvdGQ+PHRkPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJjIj7imJA8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImMiPjk8L3RkPjx0ZD48L3RkPjx0ZD48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iYyI+4piQPC90ZD48L3RyPgogICAgICA8dHI+PHRkIGNsYXNzPSJjIj4xMDwvdGQ+PHRkPjwvdGQ+PHRkPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJjIj7imJA8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImMiPjExPC90ZD48dGQ+PC90ZD48dGQ+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImMiPuKYkDwvdGQ+PC90cj4KICAgICAgPHRyPjx0ZCBjbGFzcz0iYyI+MTI8L3RkPjx0ZD48L3RkPjx0ZD48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iZG90Ij48L3RkPjx0ZCBjbGFzcz0iYyI+4piQPC90ZD48L3RyPgogICAgICA8dHI+PHRkIGNsYXNzPSJjIj4xMzwvdGQ+PHRkPjwvdGQ+PHRkPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJjIj7imJA8L3RkPjwvdHI+CiAgICAgIDx0cj48dGQgY2xhc3M9ImMiPjE0PC90ZD48dGQ+PC90ZD48dGQ+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImRvdCI+PC90ZD48dGQgY2xhc3M9ImMiPuKYkDwvdGQ+PC90cj4KICAgIDwvdGJvZHk+CiAgPC90YWJsZT4KCiAgPGRpdiBjbGFzcz0iZ3JpZCBnMiIgc3R5bGU9Im1hcmdpbi10b3A6OHB4Ij4KICAgIDxkaXYgY2xhc3M9ImZsZCI+PHNwYW4+2YXZhNin2K3YuNin2Kog2KfZhNiq2LXZiNmK2LEgKNil2LbYp9ih2KkgLyDZhdin2YrZg9in2KogLyDYrtmE2YHZitipKTwvc3Bhbj48ZGl2IGNsYXNzPSJsaW5lcyI+PC9kaXY+PGRpdiBjbGFzcz0ibGluZXMiPjwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0iZmxkIj48c3Bhbj7Zgtin2KbZhdipINin2YTZhNit2LjYp9iqINin2YTZhdiu2KrYp9ix2Kkg2YTZhNi02YjYsdiq2KfYqiAo2KPYsdmC2KfZhSDYp9mE2LXZgdmI2YEpPC9zcGFuPjxkaXYgY2xhc3M9ImxpbmVzIj48L2Rpdj48ZGl2IGNsYXNzPSJsaW5lcyI+PC9kaXY+PC9kaXY+CiAgPC9kaXY+CgogIDwhLS0gPT09PT09PT09PT09PT09PT0g2KfZhNmC2LPZhSDZojog2KfZhNi02YjYsdiqID09PT09PT09PT09PT09PT09IC0tPgogIDxoMyBjbGFzcz0ic2VjIHR0Ij48c3BhbiBjbGFzcz0ibnVtIj7Zojwvc3Bhbj4g2LTZiNix2Kog2YHZitiv2YrZiCDigJQg2KrZitmDINiq2YjZgyA8c21hbGw+VGlrVG9rIFNob3J0cyDCtyA5OjE2IMK3IDE14oCTNjAg2Ks8L3NtYWxsPjwvaDM+CgogIDxkaXYgY2xhc3M9InRpcCI+CiAgICA8Yj7Zgtin2LnYr9ipINin2YTYp9mC2KrYt9in2Lk6PC9iPiDZhNinINiq2YbYs9iuINin2YTZhdi02YfYryDZg9mF2Kcg2YfZiCDigJQg2KfYqNiv2KMg2YXZhiA8Yj7Yo9mC2YjZiSDYrNmF2YTYqTwvYj4gKNin2YTZh9mI2YMpINmI2KfYsdis2Lkg2YTZhNiz2YrYp9mCINio2LnYryDZoyDYq9mI2KfZhtmKLgogICAg2LTZiNix2Kog2YjYp9it2K8gPSDZgdmD2LHYqSDZiNin2K3Yr9ipLiDYp9it2LDZgSDYp9mE2KPYs9mF2KfYoSDYp9mE2LfZiNmK2YTYqdiMINmI2KfZg9iq2KggPGI+2KfZhNmG2LUg2LnZhNmJINin2YTYtNin2LTYqTwvYj4g2YTZg9mEINis2YXZhNipINmF2YfZhdipICjYo9mD2KvYsSDZhdmGINmo2aXZqiDZiti02KfZh9iv2YjZhiDYqNiv2YjZhiDYtdmI2KopLgogIDwvZGl2PgoKICA8ZGl2IGNsYXNzPSJoNCB0dCI+2KjYt9in2YLYp9iqINin2YTYtNmI2LHYqtin2KogKNmF2YYg2KfZhNmE2YjZhtisIOKGkiDYpdmE2Ykg2KrZitmDINiq2YjZgyk8L2Rpdj4KICA8ZGl2IGNsYXNzPSJjbGlwcyIgaWQ9ImNsaXBXcmFwIj4KCiAgICA8IS0tID09PT09INmC2KfZhNioINio2LfYp9mC2Kkg2LTZiNix2KogKNmK2KrZg9ix2LEpID09PT09IC0tPgogICAgPGFydGljbGUgY2xhc3M9ImNsaXAiPgogICAgICA8ZGl2IGNsYXNzPSJoZWFkIj7YtNmI2LHYqiDZoSA8c3BhbiBjbGFzcz0idGFnIj7YqtmK2YMg2KrZiNmDIMK3INmpOtmh2aY8L3NwYW4+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImJvZHkiPgogICAgICAgIDxkaXYgY2xhc3M9InJvdzIiPgogICAgICAgICAgPGRpdiBjbGFzcz0ibWluaSI+PHNwYW4+2YXYo9iu2YjYsCDZhdmGINin2YTZhNmI2YbYrCAo2YXZhiDigJMg2KXZhNmJKTwvc3Bhbj48ZGl2IGNsYXNzPSJsIj48L2Rpdj48L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9Im1pbmkiPjxzcGFuPtmF2K/YqSDYp9mE2LTZiNix2KogLyDYp9mE2LXZiNiqINij2Ygg2KfZhNiq2LHZitmG2K88L3NwYW4+PGRpdiBjbGFzcz0ibCI+PC9kaXY+PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iaG9vayI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YfZiNmDIOKAlCDYo9mI2YQg2aMg2KvZiNin2YbZiiAo2KzZhdmE2Kkg2KrZiNmC2YEg2KfZhNiq2YXYsdmK2LEpPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZgdmD2LHYqSDYp9mE2KPYs9in2LPZitipICjYs9i32LHZitmGKTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNiq2LXYudmK2K8gLyDYp9mE2YTYrdi42Kkg2KfZhNi12KfYr9mF2Kkg2KPZiCDYp9mE2LfYsdmK2YHYqTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmG2YfYp9mK2KkgKyDYr9i52YjYqSDZhNmE2KrZgdin2LnZhCAoQ1RBKTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YPYp9io2LTZhiArINin2YTZh9in2LTYqtin2KzYp9iqPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtmF2YTYp9it2LjYp9iqINin2YTZhdmI2YbYqtin2KwgKNmC2LfYuSAvINmG2LUg2LnZhNmJINin2YTYtNin2LTYqSAvINiq2LHYrNmF2KkpPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvYXJ0aWNsZT4KCiAgICA8YXJ0aWNsZSBjbGFzcz0iY2xpcCI+CiAgICAgIDxkaXYgY2xhc3M9ImhlYWQiPti02YjYsdiqINmiIDxzcGFuIGNsYXNzPSJ0YWciPtiq2YrZgyDYqtmI2YMgwrcg2ak62aHZpjwvc3Bhbj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iYm9keSI+CiAgICAgICAgPGRpdiBjbGFzcz0icm93MiI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJtaW5pIj48c3Bhbj7Zhdij2K7ZiNiwINmF2YYg2KfZhNmE2YjZhtisICjZhdmGIOKAkyDYpdmE2YkpPC9zcGFuPjxkaXYgY2xhc3M9ImwiPjwvZGl2PjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0ibWluaSI+PHNwYW4+2YXYr9ipINin2YTYtNmI2LHYqiAvINin2YTYtdmI2Kog2KPZiCDYp9mE2KrYsdmK2YbYrzwvc3Bhbj48ZGl2IGNsYXNzPSJsIj48L2Rpdj48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJob29rIj4KICAgICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZh9mI2YMg4oCUINij2YjZhCDZoyDYq9mI2KfZhtmKICjYrNmF2YTYqSDYqtmI2YLZgSDYp9mE2KrZhdix2YrYsSk8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmB2YPYsdipINin2YTYo9iz2KfYs9mK2KkgKNiz2LfYsdmK2YYpPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2KrYtdi52YrYryAvINin2YTZhNit2LjYqSDYp9mE2LXYp9iv2YXYqSDYo9mIINin2YTYt9ix2YrZgdipPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YbZh9in2YrYqSArINiv2LnZiNipINmE2YTYqtmB2KfYudmEIChDVEEpPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZg9in2KjYtNmGICsg2KfZhNmH2KfYtNiq2KfYrNin2Ko8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2YXZhNin2K3YuNin2Kog2KfZhNmF2YjZhtiq2KfYrCAo2YLYt9i5IC8g2YbYtSDYudmE2Ykg2KfZhNi02KfYtNipIC8g2KrYsdis2YXYqSk8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9hcnRpY2xlPgoKICAgIDxhcnRpY2xlIGNsYXNzPSJjbGlwIj4KICAgICAgPGRpdiBjbGFzcz0iaGVhZCI+2LTZiNix2Kog2aMgPHNwYW4gY2xhc3M9InRhZyI+2KrZitmDINiq2YjZgyDCtyDZqTrZodmmPC9zcGFuPjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJib2R5Ij4KICAgICAgICA8ZGl2IGNsYXNzPSJyb3cyIj4KICAgICAgICAgIDxkaXYgY2xhc3M9Im1pbmkiPjxzcGFuPtmF2KPYrtmI2LAg2YXZhiDYp9mE2YTZiNmG2KwgKNmF2YYg4oCTINil2YTZiSk8L3NwYW4+PGRpdiBjbGFzcz0ibCI+PC9kaXY+PC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJtaW5pIj48c3Bhbj7Zhdiv2Kkg2KfZhNi02YjYsdiqIC8g2KfZhNi12YjYqiDYo9mIINin2YTYqtix2YrZhtivPC9zcGFuPjxkaXYgY2xhc3M9ImwiPjwvZGl2PjwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9Imhvb2siPgogICAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmH2YjZgyDigJQg2KPZiNmEINmjINir2YjYp9mG2YogKNis2YXZhNipINiq2YjZgtmBINin2YTYqtmF2LHZitixKTwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YHZg9ix2Kkg2KfZhNij2LPYp9iz2YrYqSAo2LPYt9ix2YrZhik8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTYqti12LnZitivIC8g2KfZhNmE2K3YuNipINin2YTYtdin2K/ZhdipINij2Ygg2KfZhNi32LHZitmB2Kk8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZhtmH2KfZitipICsg2K/YudmI2Kkg2YTZhNiq2YHYp9i52YQgKENUQSk8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmD2KfYqNi02YYgKyDYp9mE2YfYp9i02KrYp9is2KfYqjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7ZhdmE2KfYrdi42KfYqiDYp9mE2YXZiNmG2KrYp9isICjZgti32LkgLyDZhti1INi52YTZiSDYp9mE2LTYp9i02KkgLyDYqtix2KzZhdipKTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L2FydGljbGU+CgogICAgPGFydGljbGUgY2xhc3M9ImNsaXAiPgogICAgICA8ZGl2IGNsYXNzPSJoZWFkIj7YtNmI2LHYqiDZpCA8c3BhbiBjbGFzcz0idGFnIj7YqtmK2YMg2KrZiNmDIMK3INmpOtmh2aY8L3NwYW4+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImJvZHkiPgogICAgICAgIDxkaXYgY2xhc3M9InJvdzIiPgogICAgICAgICAgPGRpdiBjbGFzcz0ibWluaSI+PHNwYW4+2YXYo9iu2YjYsCDZhdmGINin2YTZhNmI2YbYrCAo2YXZhiDigJMg2KXZhNmJKTwvc3Bhbj48ZGl2IGNsYXNzPSJsIj48L2Rpdj48L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9Im1pbmkiPjxzcGFuPtmF2K/YqSDYp9mE2LTZiNix2KogLyDYp9mE2LXZiNiqINij2Ygg2KfZhNiq2LHZitmG2K88L3NwYW4+PGRpdiBjbGFzcz0ibCI+PC9kaXY+PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iaG9vayI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YfZiNmDIOKAlCDYo9mI2YQg2aMg2KvZiNin2YbZiiAo2KzZhdmE2Kkg2KrZiNmC2YEg2KfZhNiq2YXYsdmK2LEpPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZgdmD2LHYqSDYp9mE2KPYs9in2LPZitipICjYs9i32LHZitmGKTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNiq2LXYudmK2K8gLyDYp9mE2YTYrdi42Kkg2KfZhNi12KfYr9mF2Kkg2KPZiCDYp9mE2LfYsdmK2YHYqTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmG2YfYp9mK2KkgKyDYr9i52YjYqSDZhNmE2KrZgdin2LnZhCAoQ1RBKTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YPYp9io2LTZhiArINin2YTZh9in2LTYqtin2KzYp9iqPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtmF2YTYp9it2LjYp9iqINin2YTZhdmI2YbYqtin2KwgKNmC2LfYuSAvINmG2LUg2LnZhNmJINin2YTYtNin2LTYqSAvINiq2LHYrNmF2KkpPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvYXJ0aWNsZT4KCiAgICA8YXJ0aWNsZSBjbGFzcz0iY2xpcCI+CiAgICAgIDxkaXYgY2xhc3M9ImhlYWQiPti02YjYsdiqINmlIDxzcGFuIGNsYXNzPSJ0YWciPtiq2YrZgyDYqtmI2YMgwrcg2ak62aHZpjwvc3Bhbj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iYm9keSI+CiAgICAgICAgPGRpdiBjbGFzcz0icm93MiI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJtaW5pIj48c3Bhbj7Zhdij2K7ZiNiwINmF2YYg2KfZhNmE2YjZhtisICjZhdmGIOKAkyDYpdmE2YkpPC9zcGFuPjxkaXYgY2xhc3M9ImwiPjwvZGl2PjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0ibWluaSI+PHNwYW4+2YXYr9ipINin2YTYtNmI2LHYqiAvINin2YTYtdmI2Kog2KPZiCDYp9mE2KrYsdmK2YbYrzwvc3Bhbj48ZGl2IGNsYXNzPSJsIj48L2Rpdj48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJob29rIj4KICAgICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZh9mI2YMg4oCUINij2YjZhCDZoyDYq9mI2KfZhtmKICjYrNmF2YTYqSDYqtmI2YLZgSDYp9mE2KrZhdix2YrYsSk8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmB2YPYsdipINin2YTYo9iz2KfYs9mK2KkgKNiz2LfYsdmK2YYpPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2KrYtdi52YrYryAvINin2YTZhNit2LjYqSDYp9mE2LXYp9iv2YXYqSDYo9mIINin2YTYt9ix2YrZgdipPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YbZh9in2YrYqSArINiv2LnZiNipINmE2YTYqtmB2KfYudmEIChDVEEpPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZg9in2KjYtNmGICsg2KfZhNmH2KfYtNiq2KfYrNin2Ko8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2YXZhNin2K3YuNin2Kog2KfZhNmF2YjZhtiq2KfYrCAo2YLYt9i5IC8g2YbYtSDYudmE2Ykg2KfZhNi02KfYtNipIC8g2KrYsdis2YXYqSk8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9hcnRpY2xlPgoKICAgIDxhcnRpY2xlIGNsYXNzPSJjbGlwIj4KICAgICAgPGRpdiBjbGFzcz0iaGVhZCI+2LTZiNix2Kog2aYgPHNwYW4gY2xhc3M9InRhZyI+2KrZitmDINiq2YjZgyDCtyDZqTrZodmmPC9zcGFuPjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJib2R5Ij4KICAgICAgICA8ZGl2IGNsYXNzPSJyb3cyIj4KICAgICAgICAgIDxkaXYgY2xhc3M9Im1pbmkiPjxzcGFuPtmF2KPYrtmI2LAg2YXZhiDYp9mE2YTZiNmG2KwgKNmF2YYg4oCTINil2YTZiSk8L3NwYW4+PGRpdiBjbGFzcz0ibCI+PC9kaXY+PC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJtaW5pIj48c3Bhbj7Zhdiv2Kkg2KfZhNi02YjYsdiqIC8g2KfZhNi12YjYqiDYo9mIINin2YTYqtix2YrZhtivPC9zcGFuPjxkaXYgY2xhc3M9ImwiPjwvZGl2PjwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9Imhvb2siPgogICAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmH2YjZgyDigJQg2KPZiNmEINmjINir2YjYp9mG2YogKNis2YXZhNipINiq2YjZgtmBINin2YTYqtmF2LHZitixKTwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7Yp9mE2YHZg9ix2Kkg2KfZhNij2LPYp9iz2YrYqSAo2LPYt9ix2YrZhik8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTYqti12LnZitivIC8g2KfZhNmE2K3YuNipINin2YTYtdin2K/ZhdipINij2Ygg2KfZhNi32LHZitmB2Kk8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiPjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsYWIiPtin2YTZhtmH2KfZitipICsg2K/YudmI2Kkg2YTZhNiq2YHYp9i52YQgKENUQSk8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGluZSI+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0id2xhYiI+2KfZhNmD2KfYqNi02YYgKyDYp9mE2YfYp9i02KrYp9is2KfYqjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ3bGFiIj7ZhdmE2KfYrdi42KfYqiDYp9mE2YXZiNmG2KrYp9isICjZgti32LkgLyDZhti1INi52YTZiSDYp9mE2LTYp9i02KkgLyDYqtix2KzZhdipKTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9IndsaW5lIj48L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L2FydGljbGU+CgogIDwvZGl2PgoKICA8IS0tID09PT09PT09PT09PT09PT09INin2YTZgtiz2YUg2aM6INiq2LTZitmDINmE2YrYs9iqID09PT09PT09PT09PT09PT09IC0tPgogIDxoMyBjbGFzcz0ic2VjIG50Ij48c3BhbiBjbGFzcz0ibnVtIj7Zozwvc3Bhbj4g2KrYtNmK2YMg2YTZitiz2Kog2LPYsdmK2Lkg2YLYqNmEINin2YTZhti02LEgPHNtYWxsPlByZS1wdWJsaXNoIENoZWNrbGlzdDwvc21hbGw+PC9oMz4KCiAgPGRpdiBjbGFzcz0iaDQiPtin2YTZhNmI2YbYrCDZgdmK2K/ZitmIICjZitmI2KrZitmI2KgpPC9kaXY+CiAgPGRpdiBjbGFzcz0iY2hlY2siPgogICAgPGRpdj7Zh9mI2YMg2KPZiNmEINmj2aAg2KvYp9mG2YrYqSDZgdmK2Ycg2YjYudivINmI2KfYttitINmE2YTYrdmE2YLYqTwvZGl2PgogICAgPGRpdj7Yp9mE2YAgSW50cm8g2YLYtdmK2LEgKNij2YLZhCDZhdmGINmk2aUg2KvYp9mG2YrYqSkg2KjYr9mI2YYg2YXZgtiv2YXYp9iqINi32YjZitmE2Kk8L2Rpdj4KICAgIDxkaXY+2YPZhCDZhdit2YjYsSDZhdmD2KrZiNioINmB2Yog2LPZg9ix2YrYqNiqINmF2YbZgdi12YQg2KjYo9ix2YLYp9mFPC9kaXY+CiAgICA8ZGl2Ptin2YTYtdmI2Kog2YbYuNmK2YEg2YjZhdin2YHZiiDYqtiv2KfYrtmEINmD2YTYp9mFIChUYWxrLW92ZXIpPC9kaXY+CiAgICA8ZGl2Ptin2YTYqtix2KzZhdipL9in2YTZg9in2KjYtNmGINmF2LbYqNmI2LfYqSDYudmE2Ykg2KfZhNij2LPZhdin2KEg2YjYp9mE2YXYtdi32YTYrdin2Ko8L2Rpdj4KICAgIDxkaXY+2YbZh9in2YrYqSDYp9mE2K3ZhNmC2Kkg2KrYudmK2K8g2LDZg9ixINin2LPZhSDYp9mE2YLZhtin2KkgKyBDVEE8L2Rpdj4KICA8L2Rpdj4KCiAgPGRpdiBjbGFzcz0iaDQgdHQiPtin2YTYtNmI2LHYqiDZgdmK2K/ZitmIICjYqtmK2YMg2KrZiNmDKTwvZGl2PgogIDxkaXYgY2xhc3M9ImNoZWNrIj4KICAgIDxkaXY+2KfZhNmH2YjZgyDZgdmKINij2YjZhCDZoyDYq9mI2KfZhtmKICjYqNiv2YjZhiDZhdmC2K/ZhdipKTwvZGl2PgogICAgPGRpdj7Yo9io2LnYp9ivINmpOtmh2aYg2YjYp9mE2YPYp9iv2LEg2LnZhNmJINmI2KzZhyDYp9mE2YXYqtit2K/YqzwvZGl2PgogICAgPGRpdj7Zhti1INi52YTZiSDYp9mE2LTYp9i02Kkg2YTZhNis2YXZhNipINin2YTYo9mH2YU8L2Rpdj4KICAgIDxkaXY+2YHZg9ix2Kkg2YjYp9it2K/YqSDZgdmC2Lcg2YHZiiDYp9mE2LTZiNix2Ko8L2Rpdj4KICAgIDxkaXY+2YPYp9io2LTZhiDZgdmK2Ycg2LPYpNin2YQg2YrYtNis2ZHYuSDYp9mE2KrYudmE2YrZgtin2Ko8L2Rpdj4KICAgIDxkaXY+2KfZhNmH2KfYtNiq2KfYrNin2Ko6INmj4oCT2aUg2YfYp9i02KrYp9is2KfYqiDYr9mC2YrZgtipINmI2LDYp9iqINi12YTYqTwvZGl2PgogICAgPGRpdj7ZiNi22Lkg2LnZhNin2YXYqSDYudmE2Ykg2KfYs9mFINin2YTZgtmG2KfYqS/Yp9mE2YfYp9mG2K/ZhCDZgdmKINin2YTZgdmK2K/ZitmIPC9kaXY+CiAgICA8ZGl2Ptiq2YbYstmK2YQg2LTZiNix2Kog2KzYr9mK2K8g2YPZhCDZitmI2YUgKNio2YbZgdizINi02YPZhCDYp9mE2LrZhNin2YEg2YjYp9mE2K7Ytyk8L2Rpdj4KICA8L2Rpdj4KCiAgPGRpdiBjbGFzcz0idGlwIiBzdHlsZT0ibWFyZ2luLXRvcDoxMHB4Ij4KICAgIDxiPtiq2YTZhdmK2K0g2YTYs9ix2LnYqSDYp9mE2LnZhdmEOjwvYj4g2KfZgdiq2K0g2KfZhNmF2YTZgSDihpIg2KfYtti62LcgwqsrINi12YEg2LPZg9ix2YrYqNiqwrsg2YjCqysg2LTZiNix2KrCuyDZhNil2LbYp9mB2Kkg2KPZg9io2LEg2LnYr9ivINiq2K3Yqtin2KzZhyDihpIg2KfZhdmE2KMg2KjYp9mE2YPYqtin2KjYqSDYp9mE2YrYr9mI2YrYqSDYqNi52K8g2KfZhNi32KjYp9i52KnYjAogICAg2KPZiCDYp9mD2KrYqCDYr9in2K7ZhCDYp9mE2YXZhNmBINmC2KjZhCDYp9mE2LfYqNin2LnYqSDYq9mFINin2LbYuti3IMKr2LfYqNin2LnYqSAvINit2YHYuCBQREbCuyDZiNin2K7YqtixINit2KzZhSBBNCDZiMKr2LfYqNin2LnYqSDYp9mE2YfZiNin2YXYtCDYp9mE2KfZgdiq2LHYp9i22YrYqcK7LgogIDwvZGl2PgoKICA8ZGl2IGNsYXNzPSJoNCI+2LXZgdit2Kkg2YXZhNin2K3YuNin2Kog2K3YsdipICjYo9mB2YPYp9ixINi02YjYsdiq2KfYqiDYpdi22KfZgdmK2KkgLyDYrNmF2YQg2YLYp9mE2YfYpyDYp9mE2LbZitmBINij2KvZhtin2KEg2KfZhNiq2LXZiNmK2LEpPC9kaXY+CiAgPGRpdiBjbGFzcz0ibm90ZXMiPgogICAgPGRpdiBjbGFzcz0id2xpbmUiIHN0eWxlPSJoZWlnaHQ6MjZweCI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiIHN0eWxlPSJoZWlnaHQ6MjZweCI+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJ3bGluZSIgc3R5bGU9ImhlaWdodDoyNnB4Ij48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSIgc3R5bGU9ImhlaWdodDoyNnB4Ij48L2Rpdj4KICAgIDxkaXYgY2xhc3M9IndsaW5lIiBzdHlsZT0iaGVpZ2h0OjI2cHgiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIiBzdHlsZT0iaGVpZ2h0OjI2cHgiPjwvZGl2PgogICAgPGRpdiBjbGFzcz0id2xpbmUiIHN0eWxlPSJoZWlnaHQ6MjZweCI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiIHN0eWxlPSJoZWlnaHQ6MjZweCI+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJ3bGluZSIgc3R5bGU9ImhlaWdodDoyNnB4Ij48L2Rpdj48ZGl2IGNsYXNzPSJ3bGluZSIgc3R5bGU9ImhlaWdodDoyNnB4Ij48L2Rpdj4KICAgIDxkaXYgY2xhc3M9IndsaW5lIiBzdHlsZT0iaGVpZ2h0OjI2cHgiPjwvZGl2PjxkaXYgY2xhc3M9IndsaW5lIiBzdHlsZT0iaGVpZ2h0OjI2cHgiPjwvZGl2PgogICAgPGRpdiBjbGFzcz0id2xpbmUiIHN0eWxlPSJoZWlnaHQ6MjZweCI+PC9kaXY+PGRpdiBjbGFzcz0id2xpbmUiIHN0eWxlPSJoZWlnaHQ6MjZweCI+PC9kaXY+CiAgPC9kaXY+CgogIDxkaXYgY2xhc3M9ImZvb3QiPgogICAgPHNwYW4+2KjZiNi12YTYqSDigJQg2YLYp9mE2Kgg2LPZg9ix2YrYqNiq2KfYqiAo2YTZiNmG2KwgKyDYtNmI2LHYqik8L3NwYW4+CiAgICA8c3BhbiBjbGFzcz0icGciPti1PC9zcGFuPgogIDwvZGl2Pgo8L2Rpdj4KCjxzY3JpcHQ+CiAgZnVuY3Rpb24gYWRkUm93KCl7CiAgICB2YXIgdGIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbG9uZ0JvZHknKTsKICAgIHZhciBpICA9IHRiLnJvd3MubGVuZ3RoICsgMTsKICAgIHZhciB0ciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3RyJyk7CiAgICB0ci5pbm5lckhUTUwgPSAnPHRkIGNsYXNzPSJjIj4nK2krJzwvdGQ+PHRkPjwvdGQ+PHRkPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJkb3QiPjwvdGQ+PHRkIGNsYXNzPSJjIj7imJA8L3RkPic7CiAgICB0Yi5hcHBlbmRDaGlsZCh0cik7CiAgfQogIGZ1bmN0aW9uIGFkZENsaXAoKXsKICAgIHZhciB3cmFwID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NsaXBXcmFwJyk7CiAgICB2YXIgbiA9IHdyYXAuY2hpbGRyZW4ubGVuZ3RoICsgMTsKICAgIHZhciBzcmMgPSB3cmFwLmNoaWxkcmVuWzBdOwogICAgdmFyIGMgPSBzcmMuY2xvbmVOb2RlKHRydWUpOwogICAgYy5xdWVyeVNlbGVjdG9yKCcuaGVhZCcpLmZpcnN0Q2hpbGQudGV4dENvbnRlbnQgPSAn2LTZiNix2KogJyArIG4gKyAnICc7CiAgICB3cmFwLmFwcGVuZENoaWxkKGMpOwogIH0KPC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPgo=";
+function tplHTML(){
+  const bin = atob(TPL_B64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+function fitFrame(){
+  const f = document.getElementById('scriptsFrame');
+  if (!f) return;
+  try {
+    const d = f.contentDocument;
+    if (d && d.documentElement){
+      const h = Math.max(900, d.documentElement.scrollHeight + 60);
+      f.style.height = h + 'px';
+    }
+  } catch (e) { /* لا شيء */ }
+}
+function initFrame(){
+  const f = document.getElementById('scriptsFrame');
+  if (!f || f.dataset.ready) return;
+  f.dataset.ready = '1';
+  f.srcdoc = tplHTML();
+  f.addEventListener('load', () => { fitFrame(); setTimeout(fitFrame, 600); });
+}
+function openTemplates(){
+  const w = window.open('', '_blank');
+  if (!w) { toast('المتصفح منع فتح النافذة'); return; }
+  w.document.open(); w.document.write(tplHTML()); w.document.close();
+}
+function downloadTemplates(){
+  download('بوصلة-قوالب-السكريبتات.html', tplHTML(), 'text/html');
+  toast('تم تنزيل ملف القوالب');
+}
+
+/* ==================== INIT ==================== */
+load();
+syncProgress();
+recalc();
+initFrame();
+</script>
+</body>
+</html>
